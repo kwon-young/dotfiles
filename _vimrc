@@ -46,9 +46,15 @@ augroup backup_file
    autocmd!
    autocmd BufWritePre * let &backupext=substitute(expand("%:p"), ":\\=\\", "%%", "g")
 augroup END
-set undodir=$VIM\_undo//
-set backupdir=$VIM\_backup//
-set directory=$VIM\_swp//
+if has("win32")
+  set undodir=$VIM\_undo//
+  set backupdir=$VIM\_backup//
+  set directory=$VIM\_swp//
+else
+  set undodir=$HOME/.vim/_undo//
+  set backupdir=$HOME/.vim/_backup//
+  set directory=$HOME/.vim/_swp//
+endif
 " }}}
 
 " folding settings {{{
@@ -134,7 +140,6 @@ set smartcase
 set showmatch
 set autoindent
 set ruler
-set viminfo+=n$VIM/_viminfo
 set showcmd
 set mouse=a
 set history=1000
@@ -196,16 +201,20 @@ set tags+=./tags
 " }}}
 
 "Set Color Scheme and Font Options {{{
-"silent! colorscheme solarized
+silent! colorscheme solarized
 " Unified color scheme (default: dark)
 let g:seoul256_background = 233
-silent! colorscheme seoul256
+" silent! colorscheme seoul256
 " Light color scheme
 "silent! colorscheme seoul256-light
 " Switch
 set background=dark
 "set background=light
-set guifont=Consolas_for_Powerline_FixedD:b:h9
+if has("win32")
+  set guifont=Consolas_for_Powerline_FixedD:b:h9
+else
+  set guifont=Consolas\ for\ Powerline\ 9
+endif
 set encoding=utf-8
 set fenc=utf-8
 " }}}
@@ -374,6 +383,10 @@ vmap <Enter> <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+" }}}
+
+" color_coded Configuration {{{
+let g:color_coded_enabled = 1
 " }}}
 
 " To enable the saving and restoring of screen positions. {{{
