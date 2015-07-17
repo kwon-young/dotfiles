@@ -47,9 +47,9 @@ augroup backup_file
    autocmd BufWritePre * let &backupext=substitute(expand("%:p"), ":\\=\\", "%%", "g")
 augroup END
 if has("win32")
-  set undodir=$VIM\_undo//
-  set backupdir=$VIM\_backup//
-  set directory=$VIM\_swp//
+  set undodir=$HOME\vimfiles\_undo//
+  set backupdir=$HOME\vimfiles\_backup//
+  set directory=$HOME\vimfiles\_swp//
 else
   set undodir=$HOME/.vim/_undo//
   set backupdir=$HOME/.vim/_backup//
@@ -91,12 +91,21 @@ augroup colorScheme
 augroup END
 " }}}
 
+" font settings {{{
+if has("win32")
+  set guifont=Consolas_for_Powerline_FixedD:b:h9
+else
+  set guifont=Consolas\ for\ Powerline\ 9
+endif
+" }}}
+
 "personal map command {{{
-let mapleader = "ù"
-let maplocalleader = "§"
+set fenc=utf-8
+set encoding=utf-8
+let mapleader="ù"
 " Escape
-imap jk <Esc>
-imap kj <Esc>
+inoremap jk <Esc>
+inoremap kj <Esc>
 " Move up a line
 noremap <leader>_ ddkP
 " Move down a line
@@ -158,6 +167,7 @@ set number
 set relativenumber
 set grepprg=grep
 set backspace=2
+set noerrorbells
 " }}}
 
 "Set the status line options. Make it show more information. {{{
@@ -210,13 +220,6 @@ let g:seoul256_background = 233
 " Switch
 set background=dark
 "set background=light
-if has("win32")
-  set guifont=Consolas_for_Powerline_FixedD:b:h9
-else
-  set guifont=Consolas\ for\ Powerline\ 9
-endif
-set encoding=utf-8
-set fenc=utf-8
 " }}}
 
 " cpp enhanced highlight {{{
@@ -239,7 +242,7 @@ if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
 set encoding=utf-8
-set fenc=utf-8
+set fileencoding=utf-8
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = '⮀'
 let g:airline_left_alt_sep = '⮁'
@@ -375,6 +378,9 @@ if exists('g:UltiSnipsExpandTrigger') && exists('g:UltiSnipsJumpBackwardTrigger'
     au BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
   augroup END
 endif
+let g:UltiSnipsExpandTrigger="<cr>"
+let g:UltiSnipsJumpForwardTrigger="<TAB>"
+let g:UltiSnipsJumpBackwardTrigger="<s-TAB>"
 " }}}
 
 " Easy Align Configuration {{{
@@ -464,4 +470,3 @@ augroup cutecat
    autocmd!
    autocmd VimEnter * echo ">^.^<"
 augroup END
-
