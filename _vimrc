@@ -340,47 +340,9 @@ let g:ycm_confirm_extra_conf = 0
 " }}}
 
 " UltiSnips You Complete Me Association {{{
-let g:ulti_expand_or_jump_res = 0
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippetOrJump()
-  if g:ulti_expand_or_jump_res == 0
-    if pumvisible()
-      return "\<C-N>"
-    else
-      return "\<TAB>"
-    endif
-  endif
-
-  return ""
-endfunction
-
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item
-" and close the selection list, same as other IDEs.
-" CONFLICT with some plugins like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-let g:ulti_jump_backwards_res = 0
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-
-  return ""
-endfunction
-
-if exists('g:UltiSnipsExpandTrigger') && exists('g:UltiSnipsJumpBackwardTrigger')
-  augroup Ulti_ycm
-    autocmd!
-    au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-    au BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
-  augroup END
-endif
-let g:UltiSnipsExpandTrigger="<cr>"
-let g:UltiSnipsJumpForwardTrigger="<TAB>"
-let g:UltiSnipsJumpBackwardTrigger="<s-TAB>"
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 " }}}
 
 " Easy Align Configuration {{{
@@ -393,6 +355,10 @@ nmap ga <Plug>(EasyAlign)
 
 " color_coded Configuration {{{
 let g:color_coded_enabled = 1
+" }}}
+
+" clighter configuration {{{
+let g:clighter_libclang_file = 'libclang.dll'
 " }}}
 
 " To enable the saving and restoring of screen positions. {{{
