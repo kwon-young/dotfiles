@@ -51,9 +51,9 @@ if has("win32")
   set backupdir=$HOME\vimfiles\_backup//
   set directory=$HOME\vimfiles\_swp//
 else
-  set undodir=$HOME/.vim/_undo//
-  set backupdir=$HOME/.vim/_backup//
-  set directory=$HOME/.vim/_swp//
+  set undodir=$HOME/.vim/undo//
+  set backupdir=$HOME/.vim/backup//
+  set directory=$HOME/.vim/swp//
 endif
 " }}}
 
