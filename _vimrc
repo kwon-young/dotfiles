@@ -82,6 +82,9 @@ iabbrev KYC Kwon-Young Choi
 iabbrev @@ kwon-young.choi@hotmail.fr
 iabbrev @@e k1choi@enib.fr
 iabbrev ssig -- <cr>Kwon-Young Choi<cr>kwon-young.choi@hotmail.fr
+iabbrev lambda λ
+iabbrev lpro λProlog
+iabbrev lPro λProlog
 " }}}
 
 "Highlight group {{{
@@ -137,6 +140,12 @@ nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 " You Complete Me map {{{
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
+" Switching split with alt
+nnoremap <a-l> :wincmd l<CR>
+nnoremap <a-k> :wincmd k<CR>
+nnoremap <a-j> :wincmd j<CR>
+nnoremap <a-h> :wincmd h<CR>
+" }}}
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -168,6 +177,22 @@ set relativenumber
 set grepprg=grep
 set backspace=2
 set noerrorbells
+" }}}
+
+" markdown settings {{{
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+let g:markdown_fenced_languages = ['fsharp', 'matlab', 'cpp']
 " }}}
 
 "Set the status line options. Make it show more information. {{{
@@ -254,6 +279,7 @@ let g:airline_symbols.linenr = '⭡'
 let g:airline_exclude_preview = 1
 let g:airline_theme= 'luna'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_section_b = '%{strftime("%c")}'
 " }}}
 
 " Colors of CtrlSpace for Solarized Dark {{{
@@ -359,6 +385,12 @@ let g:color_coded_enabled = 1
 
 " clighter configuration {{{
 let g:clighter_libclang_file = 'libclang.dll'
+" }}}
+
+" pandoc syntax {{{
+augroup pandoc_syntax
+  au! BufNewFile,BufFilePRe,BufRead *.md set filetype=markdown.pandoc
+augroup END
 " }}}
 
 " To enable the saving and restoring of screen positions. {{{
