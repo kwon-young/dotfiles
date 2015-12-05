@@ -2,9 +2,9 @@
 cmake_minimum_required(VERSION 2.6)
 
 # Project declaration
-project(MyProject)
+project(test)
 
-set(LIBRARY_OUTPUT_PATH lib/${CMAKE_BUILD_TYPE})
+set(EXECUTABLE_OUTPUT_PATH lib/${CMAKE_BUILD_TYPE})
 
 # Adding project include directory
 include_directories(include)
@@ -23,9 +23,8 @@ file(
   )
 
 # Executable declaration
-add_library(
-  my_library
-  SHARED
+add_executable(
+  test
   ${source_files}
   ${header_files}
   )
