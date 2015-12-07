@@ -28,6 +28,12 @@ augroup ft
   autocmd FileType cpp setlocal foldmethod=syntax
   autocmd FileType cpp setlocal foldlevel=2
 augroup END
+
+" Terminal settings {{{
+augroup terminal
+  autocmd TermOpen * setlocal nospell
+augroup END
+" }}}
 " }}}
 
 "personnal abbreviation {{{
@@ -50,13 +56,13 @@ let mapleader="ù"
 inoremap jk <Esc>
 inoremap kj <Esc>
 " Move up a line
-noremap <leader>_ ddkP
+nnoremap <leader>_ ddkP
 " Move down a line
-noremap <leader>- ddp
+nnoremap <leader>- ddp
 " Replace " by '
-noremap <leader>' :s/"/'/g<cr>``
+nnoremap <leader>' :s/"/'/g<cr>``
 " Replace ' by "
-noremap <leader>" :s/'/"/g<cr>``
+nnoremap <leader>" :s/'/"/g<cr>``
 " U command in insert mode
 inoremap <c-u> <esc>viw~ea
 "Edit and source vimrc
@@ -68,12 +74,16 @@ nnoremap <leader>; mqA;<esc>`q
 nnoremap <leader>w :match ExtraWhiteSpace /\v\s+$/<cr>
 nnoremap <leader>W :match none<cr>
 " Add very magic to search command
-noremap / /\v
-noremap ? ?\v
+nnoremap / /\v
+nnoremap ? ?\v
 " Remove search highlight
 noremap <leader>h :nohlsearch<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>N :cprevious<cr>
+" exit insert mode in terminal
+tnoremap jk <C-\><C-n>
+tnoremap kj <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 " Personnal F1-12 mapping {{{
 " nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 " }}}
@@ -85,7 +95,14 @@ nnoremap <a-l> :wincmd l<CR>
 nnoremap <a-k> :wincmd k<CR>
 nnoremap <a-j> :wincmd j<CR>
 nnoremap <a-h> :wincmd h<CR>
+tnoremap <A-h> <C-\><C-n><C-w>h
+tnoremap <A-j> <C-\><C-n><C-w>j
+tnoremap <A-k> <C-\><C-n><C-w>k
+tnoremap <A-l> <C-\><C-n><C-w>l
 " }}}
+" Cycling through buffer
+nnoremap <Tab> :bnext<CR>:redraw<CR>:ls<CR>
+nnoremap <S-Tab> :bprevious<CR>:redraw<CR>:ls<CR>
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -149,9 +166,19 @@ Plug 'junegunn/seoul256.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 " Code to execute when the plugin is loaded on demand
-Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --clang-completer', 'for': 'cpp' }
-"autocmd! User YouCompleteMe call youcompleteme#Enable()
+Plug 'Valloric/YouCompleteMe'
+autocmd! User YouCompleteMe call youcompleteme#Enable()
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" Plug 'jeaye/color_coded'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'kongo2002/fsharp-vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'critiqjo/lldb.nvim'
+Plug 'benekastah/neomake'
 call plug#end()
 " }}}
 
@@ -165,6 +192,12 @@ silent! colorscheme seoul256
 " Switch
 set background=dark
 "set background=light
+
+" Neovim-qt Guifont command
+command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+
+Guifont Inconsolata:h11
+
 " }}}
 
 "airline configuration {{{
@@ -183,6 +216,21 @@ let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
 " let g:airline_section_b = '%{strftime("%c")}'
+" }}}
+
+" You Complete Me Configuration {{{
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_path_to_python_interpreter = ''
+" }}}
+
+" UltiSnips You Complete Me Association {{{
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 " }}}
 
 
