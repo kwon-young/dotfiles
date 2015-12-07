@@ -86,6 +86,9 @@ nnoremap <a-k> :wincmd k<CR>
 nnoremap <a-j> :wincmd j<CR>
 nnoremap <a-h> :wincmd h<CR>
 " }}}
+" Cycling through buffer
+nnoremap <Tab> :bnext<CR>:redraw<CR>:ls<CR>
+:nnoremap <S-Tab> :bprevious<CR>:redraw<CR>:ls<CR>
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -149,9 +152,17 @@ Plug 'junegunn/seoul256.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 " Code to execute when the plugin is loaded on demand
-Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --clang-completer', 'for': 'cpp' }
-"autocmd! User YouCompleteMe call youcompleteme#Enable()
+Plug 'Valloric/YouCompleteMe', { 'do': ['cd ycm-build', 'cmake -DPATH_TO_LLVM_ROOT=./clang_archive . ../third_party/ycmd/cpp', 'cmake --build . --target ycm_support_libs --config Release'], 'for': ['cpp', 'c', 'python']}
+autocmd! User YouCompleteMe call youcompleteme#Enable()
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" Plug 'jeaye/color_coded'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'kongo2002/fsharp-vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 " }}}
 
@@ -183,6 +194,21 @@ let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
 " let g:airline_section_b = '%{strftime("%c")}'
+" }}}
+
+" You Complete Me Configuration {{{
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_path_to_python_interpreter = ''
+" }}}
+
+" UltiSnips You Complete Me Association {{{
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 " }}}
 
 

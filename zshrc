@@ -3696,30 +3696,48 @@ zrclocal
 #f# set proxy
 function proxy_on() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    local path_to_pwd_dir="$HOME/.config/password/"
 
-    if (( $# > 0 )); then
-        valid=$(echo $@ | sed -n 's/\([0-9]\{1,3\}.\)\{4\}:\([0-9]\+\)/&/p')
-        if [[ $valid != $@ ]]; then
-            >&2 echo "Invalid address"
-            return 1
+    #if (( $# > 0 )); then
+        #valid=$(echo $@ | sed -n 's/\([0-9]\{1,3\}.\)\{4\}:\([0-9]\+\)/&/p')
+        #if [[ $valid != $@ ]]; then
+            #>&2 echo "Invalid address"
+            #return 1
+        #fi
+
+        #export http_proxy="http://$1/"
+        #export https_proxy=$http_proxy
+        #export ftp_proxy=$http_proxy
+        #export rsync_proxy=$http_proxy
+        #echo "Proxy environment variable set."
+        #return 0
+    #fi
+
+    local pre=""
+    if [[ "$1" == "enib" ]]; then
+        echo -n "username(default: k1choi): "; read username
+        if [[ $username = "" ]]; then
+            username="k1choi"
+        fi
+        local path_to_pwd_file="${path_to_pwd_dir}${username}_${1}.bin"
+        if [[ -e "$path_to_pwd_file" ]]; then
+            password=`openssl aes-256-cbc -d -in $path_to_pwd_file`
+	else
+	    echo -n "password: "; read password
+        fi
+        local server="proxy.enib.fr"
+        local port="3128"
+    else
+        echo -n "username: "; read username
+        if [[ $username != "" ]]; then
+            echo -n "password: "; read password
         fi
 
-        export http_proxy="http://$1/"
-        export https_proxy=$http_proxy
-        export ftp_proxy=$http_proxy
-        export rsync_proxy=$http_proxy
-        echo "Proxy environment variable set."
-        return 0
+        echo -n "server: "; read server
+        echo -n "port: "; read port
     fi
+    pre="$username:$password@"
 
-    echo -n "username: "; read username
-    if [[ $username != "" ]]; then
-        echo -n "password: "; read password
-        local pre="$username:$password@"
-    fi
-
-    echo -n "server: "; read server
-    echo -n "port: "; read port
     export http_proxy="http://$pre$server:$port/"
     export https_proxy=$http_proxy
     export ftp_proxy=$http_proxy
@@ -3728,6 +3746,15 @@ function proxy_on() {
     export HTTPS_PROXY=$http_proxy
     export FTP_PROXY=$http_proxy
     export RSYNC_PROXY=$http_proxy
+    git config --global http.proxy $http_proxy
+    git config --global https.proxy $https_proxy
+    unset path_to_pwd_dir
+    unset path_to_pwd_file
+    unset pre
+    unset username
+    unset password
+    unset server
+    unset port
 }
 
 function proxy_off(){
@@ -3735,8 +3762,12 @@ function proxy_off(){
     unset https_proxy
     unset ftp_proxy
     unset rsync_proxy
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
     echo -e "Proxy environment variable removed."
 }
+
+# alias vim='nvim'
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
