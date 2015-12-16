@@ -3768,10 +3768,7 @@ function proxy_off(){
 }
 
 # add cabal bin to path
-
 export PATH="$PATH:$HOME/.cabal/bin"
-
-# alias vim='nvim'
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4

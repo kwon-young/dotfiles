@@ -166,7 +166,7 @@ Plug 'junegunn/seoul256.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 " Code to execute when the plugin is loaded on demand
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " Plug 'jeaye/color_coded'
