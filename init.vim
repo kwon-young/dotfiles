@@ -101,8 +101,8 @@ tnoremap <A-k> <C-\><C-n><C-w>k
 tnoremap <A-l> <C-\><C-n><C-w>l
 " }}}
 " Cycling through buffer
-nnoremap <Tab> :bnext<CR>:redraw<CR>:ls<CR>
-nnoremap <S-Tab> :bprevious<CR>:redraw<CR>:ls<CR>
+nnoremap <Tab> :bnext<CR>:redraw<CR>
+nnoremap <S-Tab> :bprevious<CR>:redraw<CR>
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -125,7 +125,6 @@ set spell
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set showtabline=0
 set number
 set relativenumber
 set grepprg=grep
@@ -215,6 +214,8 @@ let g:airline_symbols.linenr = '⭡'
 let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+"let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
 " }}}
 
