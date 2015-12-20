@@ -24,7 +24,7 @@ endif
 augroup ft
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
-  autocmd FileType vim setlocal foldlevel=2
+  autocmd FileType vim setlocal foldlevel=0
   autocmd FileType cpp setlocal foldmethod=syntax
   autocmd FileType cpp setlocal foldlevel=2
 augroup END
@@ -48,7 +48,6 @@ iabbrev lambda λ
 iabbrev lpro λProlog
 iabbrev lPro λProlog
 " }}}
-
 
 "personal map command {{{
 let mapleader="ù"
@@ -153,11 +152,6 @@ set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 " }}}
 
-augroup cutecat
-   autocmd!
-   autocmd VimEnter * echo ">^.^<"
-augroup END
-
 " vim-plug configuration {{{
 call plug#begin()
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -195,8 +189,11 @@ set background=dark
 " Neovim-qt Guifont command
 command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
 
-Guifont Inconsolata:h11
-
+if has("win32")
+  Guifont Consolas\ for\ Powerline\ FixedD:h11
+else
+  Guifont Inconsolata:h11
+endif
 " }}}
 
 "airline configuration {{{
@@ -234,4 +231,8 @@ let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 " }}}
 
+augroup cutecat
+   autocmd!
+   autocmd VimEnter * echo ">^.^<"
+augroup END
 
