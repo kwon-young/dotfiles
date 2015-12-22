@@ -63,7 +63,7 @@ nnoremap <leader>' :s/"/'/g<cr>``
 " Replace ' by "
 nnoremap <leader>" :s/'/"/g<cr>``
 " U command in insert mode
-inoremap <c-u> <esc>viw~ea
+inoremap <a-u> <esc>viw~ea
 "Edit and source vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -102,6 +102,11 @@ tnoremap <A-l> <C-\><C-n><C-w>l
 " Cycling through buffer
 nnoremap <Tab> :bnext<CR>:redraw<CR>
 nnoremap <S-Tab> :bprevious<CR>:redraw<CR>
+" scroll with alt
+nnoremap <a-f> <c-e>j
+nnoremap <a-d> <c-y>k
+" remap CTRL-O to ALT-O
+inoremap <a-o> <c-o>
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -129,6 +134,7 @@ set relativenumber
 set grepprg=grep
 set backspace=2
 set noerrorbells
+set scrolloff=2
 " }}}
 
 " markdown settings {{{
@@ -201,13 +207,13 @@ if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
 let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
 let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
