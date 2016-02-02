@@ -148,6 +148,8 @@ nnoremap <a-l> :wincmd l<CR>
 nnoremap <a-k> :wincmd k<CR>
 nnoremap <a-j> :wincmd j<CR>
 nnoremap <a-h> :wincmd h<CR>
+nnoremap <a-f> <c-e>j
+nnoremap <a-d> <c-y>k
 " }}}
 autocmd FileType tex nnoremap <F5> :Dispatch! pdflatex %:r && bibtex %:r && pdflatex %:r && pdflatex %:r<CR>
 " }}}
