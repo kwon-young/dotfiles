@@ -1,6 +1,0 @@
-[submodule "bundle/fugitive"]
-	path = bundle/fugitive
-	url = https://github.com/tpope/vim-pathogen.git
-[submodule "dotfile/pathogen"]
-	path = dotfile/pathogen
-	url = https://github.com/tpope/vim-pathogen.git
