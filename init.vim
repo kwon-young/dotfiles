@@ -13,10 +13,14 @@ if has("win32")
   set undodir=$HOME\vimfiles\_undo//
   set backupdir=$HOME\vimfiles\_backup//
   set directory=$HOME\vimfiles\_swp//
-else
+elseif has('nvim')
   set undodir=$HOME/.config/nvim/undo//
   set backupdir=$HOME/.config/nvim/backup//
   set directory=$HOME/.config/nvim/swp//
+else
+  set undodir=$HOME/.vim/undo//
+  set backupdir=$HOME/.vim/backup//
+  set directory=$HOME/.vim/swp//
 endif
 " }}}
 
@@ -30,10 +34,21 @@ augroup ft
 augroup END
 
 " Terminal settings {{{
-augroup terminal
-  autocmd TermOpen * setlocal nospell
-augroup END
+if has('nvim')
+  augroup terminal
+    autocmd TermOpen * setlocal nospell
+  augroup END
+endif
 " }}}
+" }}}
+
+"gvim configuration {{{
+if has("gui_running")
+  set guioptions-=m  "remove menu bar
+  set guioptions-=T  "remove toolbar
+  set guioptions-=r  "remove right-hand scroll bar
+  set guioptions-=L  "remove left-hand scroll bar
+endif
 " }}}
 
 "personnal abbreviation {{{
@@ -80,9 +95,11 @@ noremap <leader>h :nohlsearch<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>N :cprevious<cr>
 " exit insert mode in terminal
-tnoremap jk <C-\><C-n>
-tnoremap kj <C-\><C-n>
-tnoremap <Esc> <C-\><C-n>
+if has('nvim')
+  tnoremap jk <C-\><C-n>
+  tnoremap kj <C-\><C-n>
+  tnoremap <Esc> <C-\><C-n>
+endif
 " Personnal F1-12 mapping {{{
 " nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 " }}}
@@ -94,10 +111,12 @@ nnoremap <a-l> :wincmd l<CR>
 nnoremap <a-k> :wincmd k<CR>
 nnoremap <a-j> :wincmd j<CR>
 nnoremap <a-h> :wincmd h<CR>
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
+if has('nvim')
+  tnoremap <A-h> <C-\><C-n><C-w>h
+  tnoremap <A-j> <C-\><C-n><C-w>j
+  tnoremap <A-k> <C-\><C-n><C-w>k
+  tnoremap <A-l> <C-\><C-n><C-w>l
+endif
 " }}}
 " Cycling through buffer
 nnoremap <Tab> :bnext<CR>:redraw<CR>
@@ -159,7 +178,11 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strf
 " }}}
 
 " vim-plug configuration {{{
-call plug#begin()
+if has('nvim')
+  call plug#begin('~/.vim/plugged')
+else
+  call plug#begin()
+endif
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/seoul256.vim'
 Plug 'bling/vim-airline'
@@ -193,12 +216,18 @@ set background=dark
 "set background=light
 
 " Neovim-qt Guifont command
-command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+if has('nvim')
+  command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+endif
 
-if has("win32")
+if has("win32") && has('nvim')
   Guifont Consolas\ for\ Powerline\ FixedD:h11
+elseif has('win32') && !has('nvim')
+  set guifont=Consolas_for_Powerline_FixedD:b:h11
+elseif has('nvim')
+  Guifont Inconsolata\ for\ Powerline:h11
 else
-  Guifont Inconsolata:h11
+  set guifont=Inconsolata\ for\ Powerline\ 11
 endif
 " }}}
 
@@ -207,13 +236,13 @@ if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
 let g:airline_powerline_fonts = 1
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
