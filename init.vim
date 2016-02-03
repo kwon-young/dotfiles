@@ -185,7 +185,8 @@ else
 endif
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/seoul256.vim'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 " Code to execute when the plugin is loaded on demand
 Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] }
