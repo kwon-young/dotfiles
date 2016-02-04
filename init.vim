@@ -28,18 +28,22 @@ endif
 augroup ft
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
-  autocmd FileType vim setlocal foldlevel=0
+  "autocmd FileType vim setlocal foldlevel=0
   autocmd FileType cpp setlocal foldmethod=syntax
-  autocmd FileType cpp setlocal foldlevel=2
+  "autocmd FileType cpp setlocal foldlevel=2
 augroup END
+set foldlevel=999
+" }}}
 
 " Terminal settings {{{
 if has('nvim')
   augroup terminal
     autocmd TermOpen * setlocal nospell
   augroup END
+  if !has('win32')
+    set shell=zsh
+  endif
 endif
-" }}}
 " }}}
 
 "gvim configuration {{{
@@ -143,6 +147,7 @@ set mouse=a
 set history=1000
 set undolevels=1000
 set relativenumber
+let loaded_spellfile_plugin=0
 set spell spelllang=en_us
 set spell
 set tabstop=2
@@ -202,6 +207,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'critiqjo/lldb.nvim'
 Plug 'benekastah/neomake'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 " }}}
 
