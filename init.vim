@@ -89,6 +89,7 @@ tnoremap <Esc> <C-\><C-n>
 " You Complete Me map {{{
 " nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
+
 " Switching split with alt {{{
 nnoremap <a-l> :wincmd l<CR>
 nnoremap <a-k> :wincmd k<CR>
@@ -217,12 +218,11 @@ let g:airline#extensions#tabline#enabled = 1
 " }}}
 
 " You Complete Me Configuration {{{
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+"let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_path_to_python_interpreter = ''
 " }}}
 
 " UltiSnips You Complete Me Association {{{
