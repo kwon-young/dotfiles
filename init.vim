@@ -13,10 +13,14 @@ if has("win32")
   set undodir=$HOME\vimfiles\_undo//
   set backupdir=$HOME\vimfiles\_backup//
   set directory=$HOME\vimfiles\_swp//
-else
+elseif has('nvim')
   set undodir=$HOME/.config/nvim/undo//
   set backupdir=$HOME/.config/nvim/backup//
   set directory=$HOME/.config/nvim/swp//
+else
+  set undodir=$HOME/.vim/undo//
+  set backupdir=$HOME/.vim/backup//
+  set directory=$HOME/.vim/swp//
 endif
 " }}}
 
@@ -24,16 +28,31 @@ endif
 augroup ft
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
-  autocmd FileType vim setlocal foldlevel=0
+  "autocmd FileType vim setlocal foldlevel=0
   autocmd FileType cpp setlocal foldmethod=syntax
-  autocmd FileType cpp setlocal foldlevel=2
+  "autocmd FileType cpp setlocal foldlevel=2
 augroup END
+set foldlevel=999
+" }}}
 
 " Terminal settings {{{
-augroup terminal
-  autocmd TermOpen * setlocal nospell
-augroup END
+if has('nvim')
+  augroup terminal
+    autocmd TermOpen * setlocal nospell
+  augroup END
+  if !has('win32')
+    set shell=zsh
+  endif
+endif
 " }}}
+
+"gvim configuration {{{
+if has("gui_running")
+  set guioptions-=m  "remove menu bar
+  set guioptions-=T  "remove toolbar
+  set guioptions-=r  "remove right-hand scroll bar
+  set guioptions-=L  "remove left-hand scroll bar
+endif
 " }}}
 
 "personnal abbreviation {{{
@@ -63,7 +82,7 @@ nnoremap <leader>' :s/"/'/g<cr>``
 " Replace ' by "
 nnoremap <leader>" :s/'/"/g<cr>``
 " U command in insert mode
-inoremap <c-u> <esc>viw~ea
+inoremap <a-u> <esc>viw~ea
 "Edit and source vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -80,9 +99,11 @@ noremap <leader>h :nohlsearch<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>N :cprevious<cr>
 " exit insert mode in terminal
-tnoremap jk <C-\><C-n>
-tnoremap kj <C-\><C-n>
-tnoremap <Esc> <C-\><C-n>
+if has('nvim')
+  tnoremap jk <C-\><C-n>
+  tnoremap kj <C-\><C-n>
+  tnoremap <Esc> <C-\><C-n>
+endif
 " Personnal F1-12 mapping {{{
 " nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 " }}}
@@ -95,14 +116,21 @@ nnoremap <a-l> :wincmd l<CR>
 nnoremap <a-k> :wincmd k<CR>
 nnoremap <a-j> :wincmd j<CR>
 nnoremap <a-h> :wincmd h<CR>
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
+if has('nvim')
+  tnoremap <A-h> <C-\><C-n><C-w>h
+  tnoremap <A-j> <C-\><C-n><C-w>j
+  tnoremap <A-k> <C-\><C-n><C-w>k
+  tnoremap <A-l> <C-\><C-n><C-w>l
+endif
 " }}}
 " Cycling through buffer
 nnoremap <Tab> :bnext<CR>:redraw<CR>
 nnoremap <S-Tab> :bprevious<CR>:redraw<CR>
+" scroll with alt
+nnoremap <a-f> <c-e>j
+nnoremap <a-d> <c-y>k
+" remap CTRL-O to ALT-O
+inoremap <a-o> <c-o>
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -120,6 +148,7 @@ set mouse=a
 set history=1000
 set undolevels=1000
 set relativenumber
+let loaded_spellfile_plugin=0
 set spell spelllang=en_us
 set spell
 set tabstop=2
@@ -130,6 +159,7 @@ set relativenumber
 set grepprg=grep
 set backspace=2
 set noerrorbells
+set scrolloff=2
 " }}}
 
 " markdown settings {{{
@@ -154,25 +184,47 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strf
 " }}}
 
 " vim-plug configuration {{{
-call plug#begin()
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+if has('nvim')
+  call plug#begin('~/.vim/plugged')
+else
+  call plug#begin()
+endif
+" appearance
 Plug 'junegunn/seoul256.vim'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" file system
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ctrlpvim/ctrlp.vim'
+
+" git
 Plug 'tpope/vim-fugitive'
-" Code to execute when the plugin is loaded on demand
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" language
+" generic
 Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" Plug 'jeaye/color_coded'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'kongo2002/fsharp-vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'benekastah/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" cpp
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'critiqjo/lldb.nvim'
-Plug 'benekastah/neomake'
+if !has('nvim')
+  Plug 'jeaye/color_coded'
+endif
+
+" python
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'bfredl/nvim-ipy'
+
+" markdown
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 call plug#end()
 " }}}
 
@@ -188,12 +240,18 @@ set background=dark
 "set background=light
 
 " Neovim-qt Guifont command
-command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+if has('nvim')
+  command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+endif
 
-if has("win32")
+if has("win32") && has('nvim')
   Guifont Consolas\ for\ Powerline\ FixedD:h11
+elseif has('win32') && !has('nvim')
+  set guifont=Consolas_for_Powerline_FixedD:b:h11
+elseif has('nvim')
+  Guifont Inconsolata\ for\ Powerline:h11
 else
-  Guifont Inconsolata:h11
+  set guifont=Inconsolata\ for\ Powerline\ 11
 endif
 " }}}
 
@@ -215,6 +273,7 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 "let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
+let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
 " }}}
 
 " You Complete Me Configuration {{{
@@ -229,6 +288,10 @@ let g:ycm_confirm_extra_conf = 0
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
+" }}}
+
+" virtualenv config {{{
+let g:virtualenv_directory = '~'
 " }}}
 
 augroup cutecat
