@@ -188,26 +188,42 @@ if has('nvim')
 else
   call plug#begin()
 endif
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" appearance
 Plug 'junegunn/seoul256.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" file system
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ctrlpvim/ctrlp.vim'
+
+" git
 Plug 'tpope/vim-fugitive'
-" Code to execute when the plugin is loaded on demand
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" language
+" generic
 Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" Plug 'jeaye/color_coded'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'kongo2002/fsharp-vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'benekastah/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" cpp
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'critiqjo/lldb.nvim'
-Plug 'benekastah/neomake'
-Plug 'ctrlpvim/ctrlp.vim'
+if !has('nvim')
+  Plug 'jeaye/color_coded'
+endif
+
+" python
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'bfredl/nvim-ipy'
+
+" markdown
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 call plug#end()
 " }}}
 
@@ -256,6 +272,7 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 "let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
+let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
 " }}}
 
 " You Complete Me Configuration {{{
@@ -271,6 +288,10 @@ let g:ycm_path_to_python_interpreter = ''
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
+" }}}
+
+" virtualenv config {{{
+let g:virtualenv_directory = '~'
 " }}}
 
 augroup cutecat
