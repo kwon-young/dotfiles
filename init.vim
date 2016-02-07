@@ -63,9 +63,9 @@ iabbrev KYC Kwon-Young Choi
 iabbrev @@ kwon-young.choi@hotmail.fr
 iabbrev @@e k1choi@enib.fr
 iabbrev ssig -- <cr>Kwon-Young Choi<cr>kwon-young.choi@hotmail.fr
-iabbrev lambda λ
-iabbrev lpro λProlog
-iabbrev lPro λProlog
+iabbrev lambda Î»
+iabbrev lpro Î»Prolog
+iabbrev lPro Î»Prolog
 " }}}
 
 "personal map command {{{
@@ -134,6 +134,8 @@ inoremap <a-o> <c-o>
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
+set fenc=utf-8
+set encoding=utf-8
 set nu
 set hidden
 set ignorecase
@@ -247,7 +249,7 @@ endif
 if has("win32") && has('nvim')
   Guifont Consolas\ for\ Powerline\ FixedD:h11
 elseif has('win32') && !has('nvim')
-  set guifont=Consolas_for_Powerline_FixedD:b:h11
+  set guifont=Consolas_for_Powerline_FixedD:h11
 elseif has('nvim')
   Guifont Inconsolata\ for\ Powerline:h11
 else
@@ -260,20 +262,23 @@ if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
 let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
 let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 "let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
-let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
+let g:airline#extensions#virtualenv#enabled = 1
+"if exists('g:airline_section_b')
+  "let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
+"endif
 " }}}
 
 " You Complete Me Configuration {{{
