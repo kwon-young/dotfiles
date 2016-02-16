@@ -98,6 +98,8 @@ nnoremap ? ?\v
 noremap <leader>h :nohlsearch<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>N :cprevious<cr>
+" delete buffer without deleting split
+nnoremap <leader>d :bp\|bd #<cr>
 " exit insert mode in terminal
 if has('nvim')
   tnoremap jk <C-\><C-n>
@@ -108,7 +110,7 @@ endif
 " nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 " }}}
 " You Complete Me map {{{
-" nnoremap <leader>jd :YcmCompleter GoTo<CR>
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 
 " Switching split with alt {{{
@@ -177,7 +179,7 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
-let g:markdown_fenced_languages = ['fsharp', 'matlab', 'cpp']
+let g:markdown_fenced_languages = ['matlab', 'cpp']
 " }}}
 
 "Set the status line options. Make it show more information. {{{
@@ -199,10 +201,14 @@ Plug 'vim-airline/vim-airline-themes'
 " file system
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-ctrlspace/vim-ctrlspace'
 
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" text editing
+Plug 'thinca/vim-visualstar'
 
 " language
 " generic
@@ -212,6 +218,10 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'benekastah/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+"Plug 'vim-scripts/LanguageTool'
+Plug 'xolox/vim-lua-ftplugin'
+" dependency of vim-lua-ftplugin
+Plug 'xolox/vim-misc'
 
 " cpp
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
@@ -262,13 +272,23 @@ if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
 let g:airline_powerline_fonts = 1
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+if has('win32')
+  let g:airline_left_sep = '⮀'
+  let g:airline_left_alt_sep = '⮁'
+  let g:airline_right_sep = '⮂'
+  let g:airline_right_alt_sep = '⮃'
+  let g:airline_symbols.branch = '⭠'
+  let g:airline_symbols.readonly = '⭤'
+  let g:airline_symbols.linenr = '⭡'
+else
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
 let g:airline_exclude_preview = 1
 let g:airline_theme= 'simple'
 let g:airline#extensions#tabline#enabled = 1
@@ -276,9 +296,9 @@ let g:airline#extensions#tabline#enabled = 1
 "let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
 let g:airline#extensions#virtualenv#enabled = 1
-"if exists('g:airline_section_b')
-  "let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
-"endif
+if exists('g:airline_section_b')
+  let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
+endif
 " }}}
 
 " You Complete Me Configuration {{{
@@ -304,3 +324,9 @@ augroup cutecat
    autocmd VimEnter * echo ">^.^<"
 augroup END
 
+" vim-lua-ftplugin configuration {{{
+" This sets the default value for all buffers.
+let g:lua_interpreter_path = '/udd/kchoi/torch/install/bin/qlua'
+let g:lua_internal = 0
+let g:lua_complete_omni = 1
+" }}}
