@@ -11,8 +11,10 @@ SRC_INIT = init.vim
 PLUGGED = plugged
 PLUG = vim-plug/plug.vim
 SRC_SPELL = /home/dmosuser/SSH_udd/.vim/spell/*.spl
+s+ = $(shell echo $1 | sed 's/ /\\ /g')
+FONT_FILES = $(notdir $(shell find $(DOTFILES) -iname '*.otf' | sed 's/ /\\ /g'))
 
-all:
+all: font
 	@echo "Creating dir"
 	mkdir -p $(NVIM_PATH)
 	mkdir -p $(VIM_PATH)
@@ -28,3 +30,14 @@ all:
 	(cd $(NVIM_PATH)/$(SPELL); cp $(SRC_SPELL) .)
 	(cd $(VIM_PATH)/$(SPELL); cp $(SRC_SPELL) .)
 
+.PHONY: $(FONT_FILES)
+
+font: font_dir $(FONT_FILES)
+	fc-cache -fv
+	@echo "===================="
+font_dir:
+	(cd $(HOME); mkdir -p .fonts)
+
+$(FONT_FILES):
+	@echo "installing font"
+	(cd $(HOME)/.fonts; ln -sf $(DOTFILES)/$(call s+,$@) $(call s+,$@))
