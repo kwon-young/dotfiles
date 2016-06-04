@@ -1,4 +1,4 @@
-filetype plugin indent on
+filetype indent plugin on
 syntax on
 
 "Personal Settings.
@@ -38,12 +38,20 @@ set foldlevel=999
 " Terminal settings {{{
 if has('nvim')
   augroup terminal
+    autocmd!
     autocmd TermOpen * setlocal nospell
   augroup END
   if !has('win32')
     set shell=zsh
   endif
 endif
+" }}}
+
+" Exclude qf from buflist {{{
+augroup qf
+    autocmd!
+    autocmd FileType qf set nobuflisted
+augroup END
 " }}}
 
 "gvim configuration {{{
@@ -152,6 +160,8 @@ nnoremap <leader>tc :Tclose<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>m :Marks<CR>
+" visual mode swapping
+vnoremap <C-X> <Esc>`.``gvP``P
 " }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
@@ -242,6 +252,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'thinca/vim-visualstar'
 Plug 'godlygeek/tabular'
 
+" terminal
+Plug 'kassio/neoterm'
+
 " language
 " generic
 Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] }
@@ -251,6 +264,8 @@ Plug 'benekastah/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'vim-scripts/LanguageTool'
+
+" Lua
 Plug 'xolox/vim-lua-ftplugin'
 " dependency of vim-lua-ftplugin
 Plug 'xolox/vim-misc'
@@ -267,8 +282,9 @@ else
 endif
 
 " python
-Plug 'jmcantrell/vim-virtualenv'
+"Plug 'jmcantrell/vim-virtualenv'
 "Plug 'bfredl/nvim-ipy'
+Plug 'klen/python-mode'
 
 " markdown
 Plug 'vim-pandoc/vim-pandoc'
@@ -346,10 +362,9 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 "let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
-let g:airline#extensions#virtualenv#enabled = 1
-if exists('g:airline_section_b')
-  let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
-endif
+"if exists('g:airline_section_b')
+  "let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
+"endif
 " }}}
 
 " You Complete Me Configuration {{{
@@ -379,7 +394,103 @@ augroup END
 " This sets the default value for all buffers.
 let g:lua_interpreter_path = '/udd/kchoi/torch/install/bin/qlua'
 let g:lua_internal = 0
-let g:lua_complete_omni = 1
+let g:lua_complete_omni = 0
+" }}}
+
+" CtrlSpace Configuration {{{
+let g:CtrlSpaceSetDefaultMapping = 1
+let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
+" }}}
+
+" python-mode configuration {{{
+
+" Activate rope
+" Keys:
+" K             Show python docs
+" <Ctrl-Space>  Rope autocomplete
+" <Ctrl-c>g     Rope goto definition
+" <Ctrl-c>d     Rope show documentation
+" <Ctrl-c>f     Rope find occurrences
+" <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
+" [[            Jump on previous class or function (normal, visual, operator modes)
+" ]]            Jump on next class or function (normal, visual, operator modes)
+" [M            Jump on previous class or method (normal, visual, operator modes)
+" ]M            Jump on next class or method (normal, visual, operator modes)
+let g:pymode_rope = 0
+
+" Documentation
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+
+"Linting
+let g:pymode_lint = 1
+let g:pymode_lint_checker = "pyflakes,pep8"
+" Auto check on save
+let g:pymode_lint_write = 1
+
+" Support virtualenv
+let g:pymode_virtualenv = 1
+
+" Enable breakpoints plugin
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_bind = '<leader>b'
+
+" syntax highlighting
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+" Don't autofold code
+let g:pymode_folding = 1
+
+" Python indentation
+let g:pymode_indent = 1
+" }}}
+
+" Neoterm configuration {{{
+"let g:neoterm_automap_keys = ',tt'
+"set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
+"set statusline+=%#NeotermTestSuccess#%{neoterm#test#status('success')}%*
+"set statusline+=%#NeotermTestFailed#%{neoterm#test#status('failed')}%*
+let g:neoterm_keep_term_open = 0
+function! GetRepl()
+  if &filetype == 'lua'
+    return 'th'
+  elseif &filetype == 'python'
+    return 'python'
+  endif
+endfunction
+
+function! RunFileInTerm()
+  execute ':w'
+  execute ':T ' . GetRepl() . ' %'
+endfunction
+
+function! RunReplInTerm()
+  execute ":T " . GetRepl()
+endfunction
+
+function! GoToTerm()
+  execute bufwinnr(bufname("neoterm")) . "wincmd w"
+endfunction
+function! InsertInTerm()
+  execute ":Topen"
+  call GoToTerm()
+  execute "normal! a"
+endfunction
+function! InsertInRepl()
+  execute ":Topen"
+  execute ":T " . GetRepl()
+  call GoToTerm()
+  execute "normal! a"
+endfunction
+
+nnoremap <leader>tf :call RunFileInTerm()<CR>
+nnoremap <leader>tc :Tclose<CR>
+nnoremap <leader>to :Topen<CR>
+nnoremap <leader>tr :call InsertInRepl()<CR>
+nnoremap <leader>ti :call InsertInTerm()<CR>
 " }}}
 
 " lldb.nvim Configuration {{{
