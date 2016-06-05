@@ -318,21 +318,11 @@ set t_Co=256
 let &t_AB="\e[48;5;%dm"
 let &t_AF="\e[38;5;%dm"
 
-" Neovim-qt Guifont command
-if has('nvim')
-  command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+if !has('nvim')
+  set guifont=Consolas_for_Powerline_FixedD:h10
 endif
 
-if has("win32") && has('nvim')
-  Guifont Consolas\ for\ Powerline\ FixedD:h10
-elseif has('win32') && !has('nvim')
-  set guifont=Consolas_for_Powerline_FixedD:h10
-elseif has('nvim')
-  GuiFont Inconsolata\ for\ Powerline:h10
-else
-  set guifont=Inconsolata\ for\ Powerline\ 10
-endif
-" }}}
+"" }}}
 
 "airline configuration {{{
 if !exists('g:airline_symbols')
