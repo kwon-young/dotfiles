@@ -94,7 +94,7 @@ nnoremap <leader>" :s/'/"/g<cr>``
 " U command in insert mode
 inoremap <a-u> <esc>viw~ea
 "Edit and source vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :vsplit ~/prog/dotfiles/init.vim<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 " Add ; at the end of line
 nnoremap <leader>; mqA;<esc>`q

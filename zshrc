@@ -3776,3 +3776,5 @@ alias log-out="qdbus org.kde.ksmserver /KSMServer logout 0 0 0"
 # Local variables:
 # mode: sh
 # End:
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
