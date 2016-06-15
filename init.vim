@@ -124,8 +124,8 @@ nnoremap <F4> :NeomakeSh cd build && cmake ..<CR>
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 " LanguageTool {{{
-nnoremap <leader>g :LanguageToolCheck<CR>
-vnoremap <leader>g :LanguageToolCheck<CR>
+nnoremap <leader>l :LanguageToolCheck<CR>
+vnoremap <leader>l :LanguageToolCheck<CR>
 " }}}
 
 " Switching split with alt {{{
