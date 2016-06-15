@@ -289,8 +289,8 @@ endif
 
 " python
 "Plug 'jmcantrell/vim-virtualenv'
-"Plug 'bfredl/nvim-ipy'
-Plug 'klen/python-mode'
+Plug 'bfredl/nvim-ipy'
+"Plug 'klen/python-mode'
 
 " markdown
 Plug 'vim-pandoc/vim-pandoc'
@@ -353,8 +353,8 @@ else
 endif
 let g:airline_exclude_preview = 1
 "let g:airline_theme= 'simple'
-let g:airline_theme='oceanicnext'
-let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='zenburn'
+"let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 "let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline_section_b = '%{strftime("%c")}'
@@ -532,5 +532,4 @@ let g:pandoc#modules#disabled = ["chdir"]
 
 " LanguageTool {{{
 let g:languagetool_jar='/home/kwon-young/soft/languagetool/languagetool-standalone/target/LanguageTool-3.4-SNAPSHOT/LanguageTool-3.4-SNAPSHOT/languagetool-commandline.jar'
-
 " }}}
