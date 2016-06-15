@@ -163,6 +163,12 @@ nnoremap <leader>m :Marks<CR>
 " visual mode swapping
 vnoremap <C-X> <Esc>`.``gvP``P
 " }}}
+" Fugitive mappings {{{
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gw :Gwrite<CR>
+" }}}
 
 "set line no, buffer, search, highlight, autoindent and more. {{{
 set fenc=utf-8
