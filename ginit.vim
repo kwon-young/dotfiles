@@ -1,1 +1,1 @@
-GuiFont Inconsolata\ for\ Powerline:h10
+GuiFont Inconsolata\ for\ Powerline:b:h12

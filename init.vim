@@ -79,7 +79,6 @@ iabbrev lPro Î»Prolog
 "personal map command {{{
 let maploca=","
 let mapleader="ù"
-inoremap Ñ <NOP>
 " Escape
 inoremap jk <Esc>
 inoremap kj <Esc>
@@ -96,6 +95,8 @@ inoremap <a-u> <esc>viw~ea
 "Edit and source vimrc
 nnoremap <leader>ev :vsplit ~/prog/dotfiles/init.vim<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>eg :vsplit ~/prog/dotfiles/ginit.vim<cr>
+nnoremap <leader>sg :source ~/prog/dotfiles/ginit.vim<cr>
 " Add ; at the end of line
 nnoremap <leader>; mqA;<esc>`q
 " Show/unshow trailing space
@@ -289,8 +290,10 @@ endif
 
 " python
 "Plug 'jmcantrell/vim-virtualenv'
-Plug 'bfredl/nvim-ipy'
+Plug 'bfredl/nvim-ipy', { 'for': ['python'] }
 "Plug 'klen/python-mode'
+Plug 'hdima/python-syntax'
+Plug 'tmhedberg/SimpylFold'
 
 " markdown
 Plug 'vim-pandoc/vim-pandoc'
@@ -312,7 +315,7 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 "silent! colorscheme OceanicNext
 "silent! colorscheme solarized
 " Unified color scheme (default: dark)
-let g:seoul256_background = 233
+let g:seoul256_background = 235
 silent! colorscheme seoul256
 " Light color scheme
 "silent! colorscheme seoul256-light
@@ -352,6 +355,7 @@ else
   let g:airline_symbols.linenr = ''
 endif
 let g:airline_exclude_preview = 1
+let g:airline_detect_spell=0
 "let g:airline_theme= 'simple'
 let g:airline_theme='zenburn'
 "let g:airline#extensions#tabline#enabled = 1
@@ -442,6 +446,10 @@ let g:pymode_folding = 1
 
 " Python indentation
 let g:pymode_indent = 1
+" }}}
+
+" Python syntax configuration {{{
+let python_highlight_all = 1
 " }}}
 
 " Neoterm configuration {{{
