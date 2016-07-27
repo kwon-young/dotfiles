@@ -114,12 +114,15 @@ nnoremap <leader>d :bp\|bd #<cr>
 " exit insert mode in terminal
 if has('nvim')
   tnoremap jk <C-\><C-n>
-  tnoremap <Esc> <C-\><C-n>
 endif
 " Personnal F1-12 mapping {{{
 " nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
-nnoremap <F5> :NeomakeSh make<CR>
-nnoremap <F4> :NeomakeSh cd build && cmake ..<CR>
+"nnoremap <F5> :NeomakeSh make<CR>
+"nnoremap <F4> :NeomakeSh cd build && cmake ..<CR>
+augroup f5
+    autocmd!
+    autocmd FileType tex nnoremap <F5> :Neomake! make<CR>
+augroup END
 " }}}
 " You Complete Me map {{{
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
@@ -171,6 +174,14 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gw :Gwrite<CR>
 " }}}
 
+" Gundo mappings {{{
+nnoremap <leader>ut :GundoToggle<CR>
+" }}}
+
+" diffupdate to du {{{
+nnoremap du :diffupdate<CR>
+" }}}
+
 "set line no, buffer, search, highlight, autoindent and more. {{{
 set fenc=utf-8
 if !has('nvim')
@@ -193,6 +204,13 @@ set mouse=a
 set history=1000
 set undolevels=1000
 set relativenumber
+" Disable for latex
+augroup latex
+    autocmd!
+    autocmd FileType tex set norelativenumber
+    autocmd FileType tex set nocursorline
+augroup END
+
 let loaded_spellfile_plugin=0
 set spell spelllang=en_us
 set spell
@@ -206,6 +224,7 @@ set backspace=2
 set noerrorbells
 set scrolloff=4
 set listchars=tab:>-,trail:-
+set wrap
 " }}}
 
 " markdown settings {{{
@@ -241,8 +260,9 @@ Plug 'junegunn/seoul256.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'freeo/vim-kalisi'
 Plug 'altercation/vim-colors-solarized'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 
 " file system
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -250,6 +270,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'junegunn/fzf', { 'dir': '~/.config/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'mtth/scratch.vim'
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -258,19 +279,21 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " text editing
 Plug 'thinca/vim-visualstar'
 Plug 'godlygeek/tabular'
+Plug 'sjl/gundo.vim'
 
 " terminal
 Plug 'kassio/neoterm'
 
 " language
 " generic
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] }
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'tex', 'vim'] }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
 Plug 'scrooloose/nerdcommenter'
 Plug 'benekastah/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'vim-scripts/LanguageTool'
+Plug 'kwon-young/vim-wordreference'
 
 " Lua
 Plug 'xolox/vim-lua-ftplugin'
@@ -286,14 +309,16 @@ if !has('nvim')
   Plug 'jeaye/color_coded'
 else
   Plug 'bbchung/Clamp'
+  Plug 'arakashic/chromatica.nvim'
 endif
 
 " python
-"Plug 'jmcantrell/vim-virtualenv'
+Plug 'jmcantrell/vim-virtualenv'
 Plug 'bfredl/nvim-ipy', { 'for': ['python'] }
 "Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
 Plug 'tmhedberg/SimpylFold'
+Plug 'JarrodCTaylor/vim-python-test-runner'
 
 " markdown
 Plug 'vim-pandoc/vim-pandoc'
@@ -367,8 +392,82 @@ let g:airline_theme='zenburn'
 "endif
 " }}}
 
+" lightline configuration {{{
+let g:lightline = {
+      \ 'colorscheme': 'seoul256',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightLineFugitive',
+      \   'readonly': 'LightLineReadonly',
+      \   'modified': 'LightLineModified',
+      \   'filename': 'LightLineFilename'
+      \ },
+      \ 'component': {
+      \   'lineinfo': '%3l:%-2v',
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
+      \ }
+
+function! LightLineModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    return "+"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightLineReadonly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return ''
+  else
+    return ""
+  endif
+endfunction
+
+function! LightLineFilename()
+  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+endfunction
+
+function! LightLineFugitive()
+  if exists("*fugitive#head")
+    let branch = fugitive#head()
+    return branch !=# '' ? ''.branch : ''
+  endif
+  return ''
+endfunction
+" }}}
+
+" vimtex {{{
+let g:tex_flavor = "latex"
+if !exists('g:ycm_semantic_triggers')
+  let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = [
+      \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
+      \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
+      \ 're!\\hyperref\[[^]]*',
+      \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
+      \ 're!\\(include(only)?|input){[^}]*',
+      \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
+      \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ ]
+" }}}
+
 " You Complete Me Configuration {{{
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1, 'latex': 1}
+let g:ycm_filetype_whitelist = { 'cpp': 1, 'tex': 1, 'vim':1}
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -376,13 +475,20 @@ let g:ycm_confirm_extra_conf = 0
 " }}}
 
 " UltiSnips You Complete Me Association {{{
+"let g:ulti_expand_or_jump_res = 0 "default value, just set once
+"function! Ulti_ExpandOrJump_and_getRes()
+ "call UltiSnips#ExpandSnippetOrJump()
+ "return g:ulti_expand_or_jump_res
+"endfunction
+
+"inoremap <c-r> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":IMAP_Jumpfunc('', 0)<CR>
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 " }}}
 
 " virtualenv config {{{
-let g:virtualenv_directory = '~'
+let g:virtualenv_directory = '~/.virtualenvs'
 " }}}
 
 augroup cutecat
@@ -517,23 +623,6 @@ let g:clamp_libclang_file = '/usr/lib/libclang.so'
 let g:clamp_compile_args = ['-DMyProjectLib_EXPORTS', '-DQT_CORE_LIB', '-DQT_GUI_LIB', '-DQT_NO_DEBUG', '-DQT_WIDGETS_LIB', '-I/home/kwon-young/prog/qt5-tutorial', '-I/tmp/tmpOlCxI1', '-isystem', '/usr/include/qt', '-isystem', '/usr/include/qt/QtCore', '-isystem', '/usr/include/qt/QtGui', '-isystem', '/usr/include/qt/QtWidgets', '-isystem', '/usr/lib/qt/mkspecs/linux-g++']
 " }}}
 
-" vimtex {{{
-let g:tex_flavor = "latex"
-if !exists('g:ycm_semantic_triggers')
-  let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers.tex = [
-      \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
-      \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
-      \ 're!\\hyperref\[[^]]*',
-      \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
-      \ 're!\\(include(only)?|input){[^}]*',
-      \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
-      \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
-      \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
-      \ ]
-" }}}
-
 " vim-pandoc {{{
 let g:pandoc#modules#disabled = ["chdir"]
 " }}}
@@ -561,3 +650,35 @@ let g:terminal_color_14 = "#87D7D7"
 let g:terminal_color_15 = "#E4E4E4"
 let g:terminal_color_background="#171717"
 let g:terminal_color_foreground="#D0D0D0"
+
+" nvim-ipy configuration {{{
+let g:nvim_ipy_perform_mappings = 0
+" }}}
+
+" Gundo configuration {{{
+nnoremap <F2> :GundoToggle<CR>
+" }}}
+
+" Neomake {{{
+let g:neomake_python_nosetests_maker = {
+    \ 'errorformat': '%-G%.%#lib/python%.%#/site-package%.%#,%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m',
+    \ }
+let g:neomake_python_python_maker = {
+    \ 'errorformat': '*',
+    \ }
+
+let g:neomake_python_enabled_makers = [
+      \ 'nosetests', 
+      \ 'python'
+      \ ]
+
+let g:neomake_tex_pdflatex_maker = {
+      \ 'errorformat': '%f:%l:\ %m',
+      \ 'args': ['-file-line-error', '-interaction=nonstopmode'],
+      \ }
+let g:neomake_tex_make_maker = {
+      \ 'errorformat': '%f:%l:\ %m,%f:%l-%\\d%\\+:\ %m',
+      \ 'args': ['all'],
+      \ }
+let g:neomake_tex_enabled_makers = ['pdflatex', 'make']
+" }}}
