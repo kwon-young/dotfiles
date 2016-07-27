@@ -3769,7 +3769,8 @@ function proxy_off(){
 
 # add cabal bin to path
 export PATH="$PATH:$HOME/.cabal/bin"
-alias log-out="qdbus org.kde.ksmserver /KSMServer logout 0 0 0"
+alias shut="qdbus org.kde.ksmserver /KSMServer logout 0 2 0"
+alias minidlna="minidlnad -f /home/$USER/.config/minidlna/minidlna.conf -P /home/$USER/.config/minidlna/minidlna.pid"
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
