@@ -3769,6 +3769,8 @@ function proxy_off(){
 
 # add cabal bin to path
 export PATH="$PATH:$HOME/.cabal/bin"
+export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin/"
+export PATH="$PATH:$HOME/prog/cling/bin"
 alias shut="qdbus org.kde.ksmserver /KSMServer logout 0 2 0"
 alias minidlna="minidlnad -f /home/$USER/.config/minidlna/minidlna.conf -P /home/$USER/.config/minidlna/minidlna.pid"
 

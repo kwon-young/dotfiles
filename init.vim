@@ -122,10 +122,12 @@ endif
 augroup f5
     autocmd!
     autocmd FileType tex nnoremap <F5> :Neomake! make<CR>
+    autocmd FileType cpp nnoremap <F5> :Neomake!<CR>
 augroup END
 " }}}
 " You Complete Me map {{{
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
+nnoremap <leader>jf :YcmCompleter FixIt<CR>
 " }}}
 " LanguageTool {{{
 nnoremap <leader>l :LanguageToolCheck<CR>
@@ -182,6 +184,23 @@ nnoremap <leader>ut :GundoToggle<CR>
 nnoremap du :diffupdate<CR>
 " }}}
 
+" lldb.vim mappings {{{
+"nnoremap <leader>lb <Plug>LLBreakSwitch
+nnoremap <leader>lb :execute ":LL breakpoint set -f " . expand("%:t") . " -l " . getcurpos()[1]<CR>
+nnoremap <leader>lB :LL breakpoint delete 
+"vmap <F2> <Plug>LLStdInSelected
+"nnoremap <F4> :LLstdin<CR>
+nnoremap <leader>ld :LLmode debug<CR>
+nnoremap <leader>lc :LLmode code<CR>
+nnoremap <F9> :LL thread continue<CR>
+nnoremap <F10> :LL thread step-over<CR>
+nnoremap <F11> :LL thread step-in<CR>
+nnoremap <F12> :LL process kill<CR>
+nnoremap <F8> :LL process launch<CR>
+nnoremap <leader>lp :LL print <C-R>=expand('<cword>')<CR>
+vnoremap <leader>lp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
+" }}}
+
 "set line no, buffer, search, highlight, autoindent and more. {{{
 set fenc=utf-8
 if !has('nvim')
@@ -225,6 +244,7 @@ set noerrorbells
 set scrolloff=4
 set listchars=tab:>-,trail:-
 set wrap
+set showtabline=0
 " }}}
 
 " markdown settings {{{
@@ -286,7 +306,7 @@ Plug 'kassio/neoterm'
 
 " language
 " generic
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'tex', 'vim'] }
+Plug 'Valloric/YouCompleteMe' ", { 'for': ['cpp', 'c', 'tex', 'vim'] }
 autocmd! User YouCompleteMe call youcompleteme#Enable()
 Plug 'scrooloose/nerdcommenter'
 Plug 'benekastah/neomake'
@@ -294,6 +314,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'vim-scripts/LanguageTool'
 Plug 'kwon-young/vim-wordreference'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'metakirby5/codi.vim'
 
 " Lua
 Plug 'xolox/vim-lua-ftplugin'
@@ -467,7 +489,7 @@ let g:ycm_semantic_triggers.tex = [
 " }}}
 
 " You Complete Me Configuration {{{
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'tex': 1, 'vim':1}
+"let g:ycm_filetype_whitelist = { 'cpp': 1, 'tex': 1, 'vim':1}
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -603,21 +625,6 @@ nnoremap <leader>tr :call InsertInRepl()<CR>
 nnoremap <leader>ti :call InsertInTerm()<CR>
 " }}}
 
-" lldb.nvim Configuration {{{
-
-"nmap <leader>lb <Plug>LLBreakSwitch
-"vmap <F2> <Plug>LLStdInSelected
-"nnoremap <F4> :LLstdin<CR>
-"nnoremap <F5> :LLmode debug<CR>
-"nnoremap <S-F5> :LLmode code<CR>
-"nnoremap <leader>ld :LLmode debug<CR>
-"nnoremap <leader>lr :LLmode code<CR>
-"nnoremap <F8> :LL continue<CR>
-"nnoremap <S-F8> :LL process interrupt<CR>
-"nnoremap <F9> :LL print <C-R>=expand('<cword>')<CR>
-"vnoremap <F9> :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-" }}}
-
 let g:clamp_autostart = 1
 let g:clamp_libclang_file = '/usr/lib/libclang.so'
 let g:clamp_compile_args = ['-DMyProjectLib_EXPORTS', '-DQT_CORE_LIB', '-DQT_GUI_LIB', '-DQT_NO_DEBUG', '-DQT_WIDGETS_LIB', '-I/home/kwon-young/prog/qt5-tutorial', '-I/tmp/tmpOlCxI1', '-isystem', '/usr/include/qt', '-isystem', '/usr/include/qt/QtCore', '-isystem', '/usr/include/qt/QtGui', '-isystem', '/usr/include/qt/QtWidgets', '-isystem', '/usr/lib/qt/mkspecs/linux-g++']
@@ -681,4 +688,15 @@ let g:neomake_tex_make_maker = {
       \ 'args': ['all'],
       \ }
 let g:neomake_tex_enabled_makers = ['pdflatex', 'make']
+" }}}
+
+" Chromatica configuration {{{
+let g:chromatica#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.8.so.1'
+" }}}
+
+" cscope configuration {{{
+set csprg=/usr/bin/gtags-cscope
+" }}}
+" gutentags configuration {{{
+let g:gutentags_cscope_executable="gtags-cscope"
 " }}}
