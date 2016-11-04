@@ -29,6 +29,17 @@ export TERM=xterm-256color
 # fzf config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# tmux attach or new
+tmux_attachornew() {
+  if [ -n "$1" ]
+  then
+    tmux attach -t $1 || tmux new -s $1
+  else
+    tmux attach || tmux new
+  fi
+}
+alias tm=tmux_attachornew
+
 # End of personal config
 
 source /usr/share/zsh-antigen/antigen.zsh
