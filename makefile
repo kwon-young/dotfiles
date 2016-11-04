@@ -48,3 +48,5 @@ $(FONT_FILES):
 
 konsole:
 	(cd $(KONSOLE_DIR); ln -sf $(KONSOLE_COLOR) seoul256.colorscheme)
+	(cd $(KONSOLE_DIR); ln -sf $(HOME)/prog/dotfiles/kwon-young.profile kwon-young.profile)
+
