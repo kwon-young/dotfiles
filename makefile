@@ -53,3 +53,5 @@ konsole:
 zsh:
 	(cd $(HOME); ln -sf $(HOME)/prog/dotfiles/zshrc .zshrc)
 
+tmux:
+	(cd $(HOME); ln -sf $(HOME)/prog/dotfiles/tmux.conf .tmux.conf)
