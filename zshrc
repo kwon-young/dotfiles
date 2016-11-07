@@ -40,6 +40,22 @@ tmux_attachornew() {
 }
 alias tm=tmux_attachornew
 
+# added by Anaconda3 4.2.0 installer
+export PATH="/home/kwon-young/anaconda3/bin:$PATH"
+
+# adding cuda to path
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib/"
+export CUDA_HOME=/usr/local/cuda
+export CUDA_ROOT=$CUDA_HOME
+
+# adding ruby gem to path
+export PATH="/home/kwon-young/.gem/ruby/2.3.0/bin:$PATH"
+
+# export custom PYTHONPATH
+export PYTHONPATH="/home/kwon-young/prog/npzmaker:$PYTHONPATH"
+
 # End of personal config
 
 source /usr/share/zsh-antigen/antigen.zsh
