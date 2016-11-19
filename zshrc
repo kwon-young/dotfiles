@@ -40,8 +40,10 @@ tmux_attachornew() {
 }
 alias tm=tmux_attachornew
 
-# added by Anaconda3 4.2.0 installer
-export PATH="/home/kwon-young/anaconda3/bin:$PATH"
+# added by Anaconda 4.2.0 installer
+export_conda() {
+  export PATH="/home/kwon-young/anaconda2/bin:$PATH"
+}
 
 # adding cuda to path
 export PATH="/usr/local/cuda/bin:$PATH"
@@ -55,6 +57,9 @@ export PATH="/home/kwon-young/.gem/ruby/2.3.0/bin:$PATH"
 
 # export custom PYTHONPATH
 export PYTHONPATH="/home/kwon-young/prog/npzmaker:$PYTHONPATH"
+
+# export LanguageTool path
+export PATH="/home/kwon-young/prog/LanguageTool:$PATH"
 
 # End of personal config
 
