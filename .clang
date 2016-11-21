@@ -1,0 +1,6 @@
+flags=-I./include
+flags=-I/usr/lib/gcc/x86_64-linux-gnu/5/include
+flags=-I/usr/local/include
+flags=-I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed
+flags=-I/usr/include/x86_64-linux-gnu
+flags=-I/usr/include
