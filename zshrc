@@ -61,6 +61,8 @@ export PYTHONPATH="/home/kwon-young/prog/npzmaker:$PYTHONPATH"
 # export LanguageTool path
 export PATH="/home/kwon-young/prog/LanguageTool:$PATH"
 
+# cargo binaries (ripgrep)
+export PATH="$HOME/.cargo/bin:$PATH"
 # End of personal config
 
 source /usr/share/zsh-antigen/antigen.zsh
