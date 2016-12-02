@@ -267,17 +267,18 @@ wallpaper_links['2005'] = ["http://desktopography.net/portfolios/", \
 
 dI_list = []
 for key, value in wallpaper_links.items():
-    for name in value[1]:
+    for i, name in enumerate(value[1]):
         url = urllib.parse.urljoin(value[0], name)
         content = ReqContent(url).get()
         htmlElements = content.find_class("wallpaper-button")
         dI_list.append([])
         for htmlElement in htmlElements:
             dI_list[-1].append(DownloadImage(htmlElement))
+        print(i, "/", len(value[1]))
 
 img_dir = "/home/kwon-young/Pictures/wallpapers"
 monitor_res = get_monitors()[0]
-for dI_img in dI_list:
+for i, dI_img in enumerate(dI_list):
     monitor_list = [str2monitor(x._res) for x in dI_img]
     goalIndex = [i for i, x in enumerate(monitor_list) if x.width == monitor_res.width and x.height == monitor_res.height]
     if len(goalIndex) == 0:
@@ -286,3 +287,4 @@ for dI_img in dI_list:
     with open(os.path.join(img_dir, dI_img[goalIndex]._downloadName), "wb") as f:
         response = requests.get(dI_img[goalIndex]._downloadUrl)
         f.write(response.content)
+    print(i, "/", len(dI_list))
