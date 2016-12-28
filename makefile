@@ -55,3 +55,6 @@ zsh:
 
 tmux:
 	(cd $(HOME); ln -sf $(HOME)/prog/dotfiles/tmux.conf .tmux.conf)
+
+sh:
+	ln -sf $(HOME)/prog/dotfiles/.profile $(HOME)/.profile
