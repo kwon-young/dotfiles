@@ -63,6 +63,9 @@ export PATH="/home/kwon-young/prog/LanguageTool:$PATH"
 
 # cargo binaries (ripgrep)
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# cabal binaries (pandoc)
+export PATH="$HOME/.cabal/bin:$PATH"
 # End of personal config
 
 source /usr/share/zsh-antigen/antigen.zsh
