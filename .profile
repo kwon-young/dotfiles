@@ -22,3 +22,4 @@ PATH="$HOME/.cabal/bin:$PATH"
 # adding ruby gem to path
 export PATH="/home/kwon-young/.gem/ruby/2.3.0/bin:$PATH"
 
+export PATH="$HOME/.cargo/bin:$PATH"
