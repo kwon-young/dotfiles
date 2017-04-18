@@ -26,9 +26,6 @@ export TERM=xterm-256color
 # set screen-256color if tmux is running
 [ -n "$TMUX" ] && export TERM=screen-256color
 
-# fzf config
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # tmux attach or new
 tmux_attachornew() {
   if [ -n "$1" ]
@@ -44,6 +41,9 @@ alias tm=tmux_attachornew
 export_conda() {
   export PATH="/home/kwon-young/anaconda2/bin:$PATH"
 }
+
+# adding .local/bin to path
+export PATH="/home/kwon-young/.local/bin:$PATH"
 
 # adding cuda to path
 export PATH="/usr/local/cuda/bin:$PATH"
@@ -73,17 +73,10 @@ source /usr/share/zsh-antigen/antigen.zsh
 # Load the oh-my-zsh's library
 antigen use oh-my-zsh
 
-antigen bundle <<EOBUNDLES
-    # Bundles from the default repo (robbyrussell's oh-my-zsh)
-    git
-
-    # Fish-like auto suggestions
-    zsh-users/zsh-autosuggestions
-
-    # Extra zsh completions
-    zsh-users/zsh-completions
-
-EOBUNDLES
+antigen bundle git
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+antigen bundle srijanshetty/zsh-pandoc-completion
 
 # Load the theme
 antigen theme robbyrussell
@@ -92,3 +85,7 @@ antigen theme robbyrussell
 antigen apply
 
 antigen bundle zsh-users/zsh-syntax-highlighting
+
+# fzf config
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# --files: List files that would be searched but do not search
