@@ -42,6 +42,9 @@ export_conda() {
   export PATH="/home/kwon-young/anaconda2/bin:$PATH"
 }
 
+# adding .local/bin to path
+export PATH="/home/kwon-young/.local/bin:$PATH"
+
 # adding cuda to path
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"
@@ -70,17 +73,10 @@ source /usr/share/zsh-antigen/antigen.zsh
 # Load the oh-my-zsh's library
 antigen use oh-my-zsh
 
-antigen bundle <<EOBUNDLES
-    # Bundles from the default repo (robbyrussell's oh-my-zsh)
-    git
-
-    # Fish-like auto suggestions
-    zsh-users/zsh-autosuggestions
-
-    # Extra zsh completions
-    zsh-users/zsh-completions
-
-EOBUNDLES
+antigen bundle git
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+antigen bundle srijanshetty/zsh-pandoc-completion
 
 # Load the theme
 antigen theme robbyrussell
@@ -92,4 +88,4 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # fzf config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+# --files: List files that would be searched but do not search
