@@ -26,9 +26,6 @@ export TERM=xterm-256color
 # set screen-256color if tmux is running
 [ -n "$TMUX" ] && export TERM=screen-256color
 
-# fzf config
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # tmux attach or new
 tmux_attachornew() {
   if [ -n "$1" ]
@@ -92,3 +89,7 @@ antigen theme robbyrussell
 antigen apply
 
 antigen bundle zsh-users/zsh-syntax-highlighting
+
+# fzf config
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
