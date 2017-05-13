@@ -37,10 +37,7 @@ tmux_attachornew() {
 }
 alias tm=tmux_attachornew
 
-# added by Anaconda 4.2.0 installer
-export_conda() {
-  export PATH="/home/kwon-young/anaconda2/bin:$PATH"
-}
+alias mosh-duz='mosh --server="LD_LIBRARY_PATH=/udd/kchoi/igrida/anaconda2/envs/mosh/lib /udd/kchoi/.local/bin/mosh-server" -- '
 
 # adding .local/bin to path
 export PATH="/home/kwon-young/.local/bin:$PATH"
@@ -89,3 +86,12 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # fzf config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+
+if type -p rg
+then
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!build/*" --glob "!__pycache__/*"'
+fi
