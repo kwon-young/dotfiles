@@ -1,0 +1,29 @@
+#! /usr/bin/env python
+
+import hashlib
+import base64
+import getpass
+
+
+domain_list = [
+    'test',
+]
+
+
+def main():
+    master_password = getpass.getpass('master_password: ')
+    domain = ''
+    while domain not in domain_list:
+        domain = getpass.getpass('domain: ')
+    n = int(getpass.getpass('iteration: '))
+    password = base64.b64encode(hashlib.pbkdf2_hmac(
+        'sha256',
+        (master_password + '/' + domain).encode(),
+        b'',
+        100000 + n
+    )).decode()[0:16]
+    print(password)
+
+
+if __name__ == "__main__":
+    main()
