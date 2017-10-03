@@ -22,7 +22,7 @@ bindkey -e
 
 # Personal config
 
-export TERM=xterm-256color
+export TERM=konsole-256color
 # set screen-256color if tmux is running
 [ -n "$TMUX" ] && export TERM=screen-256color
 
@@ -41,6 +41,8 @@ alias mosh-duz='mosh --server="LD_LIBRARY_PATH=/udd/kchoi/igrida/anaconda2/envs/
 
 # adding .local/bin to path
 export PATH="/home/kwon-young/.local/bin:$PATH"
+
+eval $(thefuck --alias)
 
 # adding cuda to path
 export PATH="/usr/local/cuda/bin:$PATH"
@@ -71,6 +73,7 @@ source /usr/share/zsh-antigen/antigen.zsh
 antigen use oh-my-zsh
 
 antigen bundle git
+antigen bundle taskwarrior
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 antigen bundle srijanshetty/zsh-pandoc-completion
