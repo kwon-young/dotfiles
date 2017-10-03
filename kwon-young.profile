@@ -1,6 +1,6 @@
 [Appearance]
 ColorScheme=seoul256
-Font=Inconsolata for Powerline,14,-1,0,57,0,0,0,0,0
+Font=Monaco for Powerline,12,-1,5,50,0,0,0,0,0,Regular
 
 [General]
 Command=/bin/zsh

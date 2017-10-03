@@ -52,7 +52,7 @@ export CUDA_HOME=/usr/local/cuda
 export CUDA_ROOT=$CUDA_HOME
 
 # adding ruby gem to path
-export PATH="/home/kwon-young/.gem/ruby/2.3.0/bin:$PATH"
+export PATH="/home/kwon-young/.gem/ruby/2.4.0/bin:$PATH"
 
 # export custom PYTHONPATH
 export PYTHONPATH="/home/kwon-young/prog/npzmaker:$PYTHONPATH"
@@ -67,7 +67,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$PATH"
 # End of personal config
 
-source /udd/kchoi/prog/antigen/antigen.zsh
+source /home/kwon-young/prog/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library
 antigen use oh-my-zsh

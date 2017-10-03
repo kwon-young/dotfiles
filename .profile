@@ -23,3 +23,27 @@ PATH="$HOME/.cabal/bin:$PATH"
 export PATH="/home/kwon-young/.gem/ruby/2.3.0/bin:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+setaw() {
+  echo $(setxkbmap -query)
+  IN=$(setxkbmap -query | grep options | sed "s/options:\s\+\(.*\)/\1/")
+
+  setxkbmap -option ""
+
+  FOUND=false
+  for i in $(echo $IN | tr "," "\n"); do
+    echo $(setxkbmap -query)
+    echo "$i"
+    if echo "$i" | grep "altwin:swap_lalt_lwin"
+    then
+      FOUND=true
+    else
+      setxkbmap -option "$i"
+    fi
+  done
+  if lsusb -d 430:5
+  then
+    setxkbmap -option "altwin:swap_lalt_lwin"
+  fi
+  echo $(setxkbmap -query)
+}
