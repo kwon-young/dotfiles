@@ -67,7 +67,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$PATH"
 # End of personal config
 
-source /usr/share/zsh-antigen/antigen.zsh
+source /udd/kchoi/prog/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library
 antigen use oh-my-zsh
