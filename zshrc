@@ -65,6 +65,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # cabal binaries (pandoc)
 export PATH="$HOME/.cabal/bin:$PATH"
+
+# taskwarrior
+alias in='task add +in'
+
 # End of personal config
 
 source /home/kwon-young/prog/antigen/antigen.zsh
@@ -81,10 +85,11 @@ antigen bundle srijanshetty/zsh-pandoc-completion
 # Load the theme
 antigen theme robbyrussell
 
+antigen bundle zsh-users/zsh-syntax-highlighting
+
 # Tell antigen that you're done
 antigen apply
 
-antigen bundle zsh-users/zsh-syntax-highlighting
 
 # fzf config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -96,5 +101,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 if type -p rg
 then
-  export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!build/*" --glob "!__pycache__/*"'
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!build/*" --glob "!__pycache__/*" --glob "!.mypy_cache/*" --glob "!.cache/*"'
 fi
+
+export PS1='$(task +in +PENDING count) '$PS1
