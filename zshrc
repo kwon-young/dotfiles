@@ -67,7 +67,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$PATH"
 
 # taskwarrior
-alias in='task add +in'
+if command -v task >/dev/null; then
+  alias in='task add +in'
+  export PS1='$(task +in +PENDING count) '$PS1
+fi
 
 check-ssh-add() {
   ssh-add -l &> /dev/null || ssh-add
@@ -107,9 +110,6 @@ antigen apply
 # --follow: Follow symlinks
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 
-if type -p rg
-then
+if command -v rg >/dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!build/*" --glob "!__pycache__/*" --glob "!.mypy_cache/*" --glob "!.cache/*"'
 fi
-
-export PS1='$(task +in +PENDING count) '$PS1
