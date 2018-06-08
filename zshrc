@@ -69,6 +69,14 @@ export PATH="$HOME/.cabal/bin:$PATH"
 # taskwarrior
 alias in='task add +in'
 
+check-ssh-add() {
+  ssh-add -l &> /dev/null || ssh-add
+}
+
+ssh() {
+  check-ssh-add
+  /usr/bin/ssh $@
+}
 # End of personal config
 
 source /home/kwon-young/prog/antigen/antigen.zsh
