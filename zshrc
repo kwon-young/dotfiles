@@ -42,8 +42,6 @@ alias mosh-duz='mosh --server="LD_LIBRARY_PATH=/udd/kchoi/igrida/anaconda2/envs/
 # adding .local/bin to path
 export PATH="/home/kwon-young/.local/bin:$PATH"
 
-eval $(thefuck --alias)
-
 # adding cuda to path
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"
