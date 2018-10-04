@@ -22,10 +22,6 @@ bindkey -e
 
 # Personal config
 
-export TERM=konsole-256color
-# set screen-256color if tmux is running
-[ -n "$TMUX" ] && export TERM=screen-256color
-
 # tmux attach or new
 tmux_attachornew() {
   if [ -n "$1" ]
@@ -52,9 +48,6 @@ export CUDA_ROOT=$CUDA_HOME
 # adding ruby gem to path
 export PATH="/home/kwon-young/.gem/ruby/2.4.0/bin:$PATH"
 
-# export custom PYTHONPATH
-export PYTHONPATH="/home/kwon-young/prog/npzmaker:$PYTHONPATH"
-
 # export LanguageTool path
 export PATH="/home/kwon-young/prog/LanguageTool:$PATH"
 
@@ -80,7 +73,7 @@ ssh() {
 }
 # End of personal config
 
-source /home/kwon-young/prog/antigen/antigen.zsh
+source $HOME/prog/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library
 antigen use oh-my-zsh
