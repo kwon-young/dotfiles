@@ -263,6 +263,20 @@ wallpaper_links['2005'] = ["http://desktopography.net/portfolios/", \
                             "hunting-season",
                             "lost-beyond",
                             "entresueno",
+                            "volgagraphy",
+                            "lilliput-castle-lilliput-castle-night",
+                            "spirit-guide",
+                            "fairy-grove",
+                            "abandoned-2",
+                            "outburst",
+                            "correlation",
+                            "before-the-calm",
+                            "breathe",
+                            "city-in-the-sky",
+                            "wishlist",
+                            "mountains-between-us",
+                            "the-nature-song",
+                            "the-rebellion",
                             ]]
 
 dI_list = []
