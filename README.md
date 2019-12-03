@@ -1,2 +1,2 @@
 # dotfiles
-This repository contains my vimrc files
+This repository contains my dotfiles.
