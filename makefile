@@ -1,6 +1,6 @@
 all: konsole zsh tmux
 
-konsole:
+konsole: neovim
 	stow konsole_config
 
 antigen:
@@ -21,10 +21,8 @@ vim:
 	stow vim_config
 
 neovim: vim miniconda
-	ln -sf $(HOME)/.vim $(HOME)/.config/nvim
-	mkdir -p $(HOME)/.local/share/nvim
-	ln -sf $(HOME)/.vim/backup $(HOME)/.local/share/nvim/backup
-	ln -sf $(HOME)/.vim/undo $(HOME)/.local/share/nvim/undo
+	stow neovim_config
+	nvim +PlugInstall +qall > /dev/null
 
 .INTERMEDIATE: Miniconda3-latest-Linux-x86_64.sh
 
@@ -45,6 +43,5 @@ clean:
 	stow -D tmux_config
 	stow -D vim_config
 	rm -rf $(HOME)/.vim
-	rm -rf $(HOME)/.config/nvim
 	rm -rf $(HOME)/.local/share/nvim
 	rm -rf $(HOME)/miniconda
