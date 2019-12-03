@@ -64,7 +64,11 @@ if command -v task >/dev/null; then
 fi
 
 check-ssh-add() {
-  ssh-add -l &> /dev/null || ssh-add
+  if [ -v DISPLAY ]; then
+    ssh-add -l &> /dev/null || ssh-add -q < /dev/null
+  else
+    ssh-add -l &> /dev/null || ssh-add
+  fi
 }
 
 ssh() {
