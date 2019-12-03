@@ -64,7 +64,7 @@ if command -v task >/dev/null; then
 fi
 
 check-ssh-add() {
-  if [ -v DISPLAY ]; then
+  if [[ -v DISPLAY ]] && [[ -v SSH_ASKPASS ]]; then
     ssh-add -l &> /dev/null || ssh-add -q < /dev/null
   else
     ssh-add -l &> /dev/null || ssh-add
