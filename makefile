@@ -36,6 +36,9 @@ miniconda: Miniconda3-latest-Linux-x86_64.sh
 	conda install -y ujson psutil
 	pip install pynvim neovim-remote 'python-language-server[all]'
 
+Ellana:
+	stow Ellana_config
+
 clean:
 	stow -D konsole_config
 	rm -rf $(HOME)/prog/antigen
@@ -45,3 +48,4 @@ clean:
 	rm -rf $(HOME)/.vim
 	rm -rf $(HOME)/.local/share/nvim
 	rm -rf $(HOME)/miniconda
+	stow -D Ellana_config
