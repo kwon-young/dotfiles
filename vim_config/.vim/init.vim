@@ -300,8 +300,10 @@ if !empty(s:plug_file)
   " Generic
   "Plug 'ludovicchabant/vim-gutentags'
   Plug 'kwon-young/gen_tags.vim'
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
+  if has('python3')
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+  endif
   Plug 'scrooloose/nerdcommenter'
 
   Plug 'tweekmonster/braceless.vim'
@@ -480,7 +482,9 @@ endif
 set completeopt=noinsert,menuone,noselect
 " The parameters are the same as `:help feedkeys()`
 " Use <CR> to expand lsp snippets
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+if exists("*ncm2_ultisnips#expand_or")
+  inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+endif
 " }}}
 
 " Status-line configuration {{{
