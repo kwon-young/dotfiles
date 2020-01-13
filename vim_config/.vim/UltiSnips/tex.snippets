@@ -16,3 +16,24 @@ endsnippet
 snippet only "only env"
 \only<${1:1}>{$2}
 endsnippet
+
+snippet cha "chapter"
+\chapter{${1}}
+\label{cha:$1}
+endsnippet
+
+snippet sec "section"
+\\section{${1}}
+\\label{sec:${2:$1}}
+${0}
+endsnippet
+
+snippet ssec "subsection"
+\subsection{${1}}
+\label{ssec:$1}
+endsnippet
+
+snippet sssec "subsubsection"
+\\subsubsection{${1}}
+\\label{sssec:$1}
+endsnippet

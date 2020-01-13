@@ -1,0 +1,6 @@
+{
+  "latex.build.executable": "latexmk",
+  "latex.build.args": ["-pvc", "-pdf", "-pdflatex='pdflatex -interaction=nonstopmode -synctex=1'", "-use-make",
+  "latex.forwardSearch.executable": "okular",
+  "latex.forwardSearch.args": ["--unique", "file:%p#src:%l%f"]
+}

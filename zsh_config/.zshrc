@@ -46,7 +46,7 @@ export CUDA_HOME=/usr/local/cuda
 export CUDA_ROOT=$CUDA_HOME
 
 # adding ruby gem to path
-export PATH="/home/kwon-young/.gem/ruby/2.4.0/bin:$PATH"
+export PATH="/home/kwon-young/.gem/ruby/2.6.0/bin:$PATH"
 
 # export LanguageTool path
 export PATH="/home/kwon-young/prog/LanguageTool:$PATH"
@@ -75,6 +75,11 @@ ssh() {
   check-ssh-add
   /usr/bin/ssh $@
 }
+
+alias oarstat='ssh -X kchoi@igrida-oar-frontend oarstat'
+alias oarsub='ssh -X kchoi@igrida-oar-frontend oarsub'
+alias oardel='ssh -X kchoi@igrida-oar-frontend oardel'
+
 # End of personal config
 
 source $HOME/prog/antigen/antigen.zsh

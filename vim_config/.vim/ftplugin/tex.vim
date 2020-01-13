@@ -15,10 +15,11 @@ function! SyncTexForward()
   endif
   let tex_file = fnameescape(expand("%:p"))
   let execstr = "silent !okular --unique " . g:main_pdf_file . "\\#src:" . line(".") . tex_file . " &"
-  exec execstr
+  execute execstr
 endfunction
 
 nnoremap <Leader>jf :VimtexView<CR>
+"nnoremap <Leader>jf :call SyncTexForward()<CR>
 nnoremap <Leader>ji :VimtexInfo<CR>
 nnoremap <Leader>jt :VimtexTocToggle<CR>
 nnoremap <Leader>jC :VimtexClean<CR>

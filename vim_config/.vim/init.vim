@@ -280,6 +280,7 @@ if !empty(s:plug_file)
     Plug 'tpope/vim-eunuch'
   endif
   Plug 'zenbro/mirror.vim'
+  Plug 'lambdalisue/suda.vim'
 
   " Searching
   Plug 'teoljungberg/vim-grep'
@@ -342,6 +343,7 @@ if !empty(s:plug_file)
   Plug 'vimjas/vim-python-pep8-indent', {'for': 'python'}
   Plug 'vim-scripts/python.vim--Herzog', {'for': 'python'}
   Plug 'sakhnik/nvim-gdb', {'for': 'python'}
+  Plug '5long/pytest-vim-compiler', {'for': 'python'}
 
   " QML
   Plug 'peterhoeg/vim-qml'
@@ -436,10 +438,12 @@ let g:LanguageClient_serverCommands = {
       \ 'python': ['pyls'],
       \ 'cpp': ['clangd', '-header-insertion-decorators=false'],
       \ 'c': ['clangd', '-header-insertion-decorators=false'],
-      \ 'typescript': ['typescript-language-server', '--stdio']
+      \ 'typescript': ['typescript-language-server', '--stdio'],
+      \ 'tex': ['texlab', '-vvv']
       \ }
 
 " Automatically start language servers.
+let g:LanguageClient_settingsPath = ".vim/settings.json"
 let g:LanguageClient_loadSettings = 1
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsList = "Location"
@@ -527,65 +531,65 @@ let g:tex_flavor = "latex"
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-if exists("*ncm2#enable_for_buffer")
-  augroup my_cm_setup
-    autocmd!
-    autocmd BufEnter * call ncm2#enable_for_buffer()
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'vimtex-cmds',
-            \ 'priority': 8, 
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'prefix', 'key': 'word'},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'vimtex-labels',
-            \ 'priority': 8, 
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'combine',
-            \             'matchers': [
-            \               {'name': 'substr', 'key': 'word'},
-            \               {'name': 'substr', 'key': 'menu'},
-            \             ]},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'vimtex-files',
-            \ 'priority': 8, 
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'combine',
-            \             'matchers': [
-            \               {'name': 'abbrfuzzy', 'key': 'word'},
-            \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-            \             ]},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#files,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-    autocmd Filetype tex call ncm2#register_source({
-            \ 'name' : 'bibtex',
-            \ 'priority': 8, 
-            \ 'complete_length': -1,
-            \ 'scope': ['tex'],
-            \ 'matcher': {'name': 'combine',
-            \             'matchers': [
-            \               {'name': 'prefix', 'key': 'word'},
-            \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-            \               {'name': 'abbrfuzzy', 'key': 'menu'},
-            \             ]},
-            \ 'word_pattern': '\w+',
-            \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-            \ })
-  augroup END
-endif
+"if exists("*ncm2#enable_for_buffer")
+  "augroup my_cm_setup
+    "autocmd!
+    "autocmd BufEnter * call ncm2#enable_for_buffer()
+    "autocmd Filetype tex call ncm2#register_source({
+            "\ 'name' : 'vimtex-cmds',
+            "\ 'priority': 8, 
+            "\ 'complete_length': -1,
+            "\ 'scope': ['tex'],
+            "\ 'matcher': {'name': 'prefix', 'key': 'word'},
+            "\ 'word_pattern': '\w+',
+            "\ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+            "\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            "\ })
+    "autocmd Filetype tex call ncm2#register_source({
+            "\ 'name' : 'vimtex-labels',
+            "\ 'priority': 8, 
+            "\ 'complete_length': -1,
+            "\ 'scope': ['tex'],
+            "\ 'matcher': {'name': 'combine',
+            "\             'matchers': [
+            "\               {'name': 'substr', 'key': 'word'},
+            "\               {'name': 'substr', 'key': 'menu'},
+            "\             ]},
+            "\ 'word_pattern': '\w+',
+            "\ 'complete_pattern': g:vimtex#re#ncm2#labels,
+            "\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            "\ })
+    "autocmd Filetype tex call ncm2#register_source({
+            "\ 'name' : 'vimtex-files',
+            "\ 'priority': 8, 
+            "\ 'complete_length': -1,
+            "\ 'scope': ['tex'],
+            "\ 'matcher': {'name': 'combine',
+            "\             'matchers': [
+            "\               {'name': 'abbrfuzzy', 'key': 'word'},
+            "\               {'name': 'abbrfuzzy', 'key': 'abbr'},
+            "\             ]},
+            "\ 'word_pattern': '\w+',
+            "\ 'complete_pattern': g:vimtex#re#ncm2#files,
+            "\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            "\ })
+    "autocmd Filetype tex call ncm2#register_source({
+            "\ 'name' : 'bibtex',
+            "\ 'priority': 8, 
+            "\ 'complete_length': -1,
+            "\ 'scope': ['tex'],
+            "\ 'matcher': {'name': 'combine',
+            "\             'matchers': [
+            "\               {'name': 'prefix', 'key': 'word'},
+            "\               {'name': 'abbrfuzzy', 'key': 'abbr'},
+            "\               {'name': 'abbrfuzzy', 'key': 'menu'},
+            "\             ]},
+            "\ 'word_pattern': '\w+',
+            "\ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+            "\ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            "\ })
+  "augroup END
+"endif
 " }}}
 
 " vim-argwrap configuration {{{
@@ -634,6 +638,10 @@ let g:nvimgdb_config_override = {
   \ 'key_eval':       'K',
   \ 'split_command': 'vsplit'
   \ }
+" }}}
+
+" suda.vim configuration {{{
+let g:suda_smart_edit = 1
 " }}}
 
 augroup cutecat
