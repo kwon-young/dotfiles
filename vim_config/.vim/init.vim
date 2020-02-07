@@ -65,7 +65,7 @@ set showcmd
 " Enable mouse
 set mouse=a
 " Enable command mode history
-set history=1000
+set history=10000
 " Maximum number of changes that can be undone
 set undolevels=1000
 " Enable spell checker us
@@ -325,6 +325,8 @@ if !empty(s:plug_file)
   Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
   Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
 
+  Plug 'puremourning/vimspector'
+
   " include for lots of filetypes
   Plug 'tpope/vim-apathy'
 
@@ -448,29 +450,12 @@ let g:LanguageClient_loadSettings = 1
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsList = "Location"
 let g:LanguageClient_useFloatingHover = 1
-
-" create a mark stack {{{
-function! IncrementalMarkPush() abort
-  let g:index_mark = get(g:, 'index_mark', -1) + 1
-  " configure, which marks to use
-  let marks = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  execute ':mark ' . marks[g:index_mark % strlen(marks)]
-endfunction
-
-function! s:IncrementalMarkPop() abort
-  let g:index_mark = max([get(g:, 'index_mark', 0), 0])
-  let marks = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let mark = marks[g:index_mark % strlen(marks)]
-  let g:index_mark = g:index_mark - 1
-  return '`' . mark
-endfunction
-" }}}
+let g:LanguageClient_windowLogMessageLevel = 'LOG'
+let g:LanguageClient_loggingFile = expand('/tmp/LanguageClient.log')
+let g:LanguageClient_loggingLevel = 'INFO'
 
 nnoremap <silent> <leader>jh :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> <leader>jm :call :call IncrementalMarkPush()<CR>
-nnoremap <silent> <leader>jd :call LanguageClient_textDocument_definition()<CR>:call IncrementalMarkPush()<CR>
-nnoremap <silent><expr> <leader>jt <sid>IncrementalMarkPop()
-nnoremap <silent> <leader>je :echo get(g:, 'index_mark', -1)<CR>
+nnoremap <silent> <leader>jd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <leader>js :call LanguageClient_textDocument_documentSymbol()<CR>
 nnoremap <silent> <leader>jr :call LanguageClient_textDocument_references()<CR>
 nnoremap <silent> <leader>jw :call LanguageClient_workspace_symbol()<CR>
@@ -480,13 +465,13 @@ nnoremap <silent> <leader>jz :call LanguageClient_contextMenu()<CR>
 
 " ncm2 configuration {{{
 " enable ncm2 for all buffers
-if exists("*ncm2#enable_for_buffer")
+if has('nvim')
   autocmd BufEnter * call ncm2#enable_for_buffer()
 endif
 set completeopt=noinsert,menuone,noselect
 " The parameters are the same as `:help feedkeys()`
 " Use <CR> to expand lsp snippets
-if exists("*ncm2_ultisnips#expand_or")
+if has('nvim')
   inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 endif
 " }}}
@@ -643,6 +628,10 @@ let g:nvimgdb_config_override = {
 " suda.vim configuration {{{
 let g:suda_smart_edit = 1
 " }}}
+
+" vimspector configuration {{{
+let g:vimspector_enable_mappings = 'HUMAN'
+"}}}
 
 augroup cutecat
    autocmd!
