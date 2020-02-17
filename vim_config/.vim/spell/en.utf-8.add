@@ -59,3 +59,5 @@ preprocessing
 preprocessed
 VGG16
 priori
+hyperparameters
+MultiBox
