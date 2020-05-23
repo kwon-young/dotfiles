@@ -113,8 +113,8 @@ antigen apply
 if command -v rg >/dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!build/*" --glob "!__pycache__/*" --glob "!.mypy_cache/*" --glob "!.cache/*"'
 fi
-ret_status="%(?:%{$fg[green]%}⳩:%{$fg[red]%}⳩)"
+ret_status="%(?:%{$fg[green]%}%{%G⳩%}:%{$fg[red]%}%{%G⳩%})"
 PROMPT='${ret_status}%{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}γ%{$fg[red]%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}%{$fg[yellow]%}ᵪ"
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}%{%Gγ%}%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}%{$fg[yellow]%}%{%Gᵪ%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}"
