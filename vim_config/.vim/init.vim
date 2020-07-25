@@ -297,6 +297,10 @@ if !empty(s:plug_file)
   " Clipboard
   Plug 'fcpg/vim-osc52'
 
+  " Async
+  Plug 'skywind3000/asynctasks.vim'
+  Plug 'skywind3000/asyncrun.vim'
+
   " Languages
   " Generic
   "Plug 'ludovicchabant/vim-gutentags'
@@ -325,7 +329,9 @@ if !empty(s:plug_file)
   Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
   Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
 
-  Plug 'puremourning/vimspector'
+  if has('nvim')
+    Plug 'mfussenegger/nvim-dap'
+  endif
 
   " include for lots of filetypes
   Plug 'tpope/vim-apathy'
@@ -355,6 +361,9 @@ if !empty(s:plug_file)
 
   " Natural
   Plug 'voldikss/vim-translate-me'
+
+  " glsl
+  Plug 'tikhomirov/vim-glsl'
 
   call plug#end()
 else
@@ -478,17 +487,37 @@ endif
 
 " Status-line configuration {{{
 function! QuickfixNumberEntry()
-  if len(getqflist())
-    return 'qf=' . len(getqflist())
+  let qflist = getqflist()
+  if len(qflist)
+    let num_valid_entry = 0
+    for line in qflist
+      let num_valid_entry = num_valid_entry + line['valid']
+    endfor
+    if num_valid_entry > 0
+      return 'qf=' . num_valid_entry
+    else
+      return ''
+    endif
   else
     return ''
+  endif
 endfunction
 
 function! LocationlistNumberEntry()
-  if len(getloclist(winnr()))
-    return 'loc=' . len(getloclist(winnr()))
+  let loclist = getloclist(winnr())
+  if len(loclist)
+    let num_valid_entry = 0
+    for line in loclist
+      let num_valid_entry = num_valid_entry + line['valid']
+    endfor
+    if num_valid_entry > 0
+      return 'loc=' . num_valid_entry
+    else
+      return ''
+    endif
   else
     return ''
+  endif
 endfunction
 
 function! SpelllangEntry()
@@ -636,6 +665,56 @@ let g:suda_smart_edit = 1
 " vimspector configuration {{{
 let g:vimspector_enable_mappings = 'HUMAN'
 "}}}
+
+" nvim-dap configuration {{{
+if has('nvim')
+lua << EOF
+local dap = require('dap')
+dap.adapters.python = {
+  type = 'executable';
+  command = 'python';
+  args = { '-m', 'debugpy.adapter' };
+}
+dap.adapters.cpp = {
+  type = 'executable',
+  attach = {
+    pidProperty = "pid",
+    pidSelect = "ask"
+  },
+  command = 'lldb-vscode', -- my binary was called 'lldb-vscode-11'
+  env = {
+    LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES"
+  },
+  name = "lldb"
+}
+EOF
+
+lua << EOF
+local dap = require('dap')
+dap.configurations = {
+  python = {
+    type = 'python';
+    request = 'launch';
+    name = "Launch file";
+    program = "${file}";
+    cwd = vim.fn.getcwd();
+    pythonPath = 'python';
+    args = { 'ressources/needed_data.csv', '--output', 'ressources/reject_ratio.tex', 'reject_ratio' };
+  },
+}
+EOF
+
+lua << EOF
+--local dap = require('dap')
+--for k, v in pairs(dap.adapters) do
+--  print(k)
+--end
+--for k, v in pairs(dap.configurations) do
+--  print(k)
+--end
+EOF
+endif
+" }}}
 
 augroup cutecat
    autocmd!
