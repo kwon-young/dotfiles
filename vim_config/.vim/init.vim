@@ -542,10 +542,21 @@ let g:tex_flavor = "latex"
 " }}}
 
 " vimtex configuration {{{
+let g:vimtex_compiler_latexmk = {
+    \ 'options' : [
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \   '-use-make',
+    \   '-shell-escape',
+    \ ],
+    \}
 let g:vimtex_fold_enabled = 1
 let g:vimtex_fold_types = {
       \ 'envs' : {'blacklist': ['itemize', 'figure', 'table', 'enumerate']},
       \}
+let g:vimtex_quickfix_method = 'pplatex'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
