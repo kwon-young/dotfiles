@@ -31,8 +31,8 @@ if has('nvim')
 else
   " Use ~/.vim path when using Vim
   set directory=$HOME/.vim/swap//
-  set undodir=$HOME/.vim/undo
-  set backupdir=$HOME/.vim/backup
+  set undodir=$HOME/.vim/undo//
+  set backupdir=$HOME/.vim/backup//
 endif
 " }}}
 
@@ -272,6 +272,8 @@ if !empty(s:plug_file)
   Plug 'vim-utils/vim-troll-stopper', { 'on': 'Troller'}
   Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-flagship'
+  Plug 'blueyed/vim-qf_resize'
+  Plug 'sk1418/QFGrep'
 
   " File system
   if has('unix')
@@ -467,6 +469,8 @@ nnoremap <silent> <leader>jh :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> <leader>jd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <leader>js :call LanguageClient_textDocument_documentSymbol()<CR>
 nnoremap <silent> <leader>jr :call LanguageClient_textDocument_references()<CR>
+nnoremap <silent> <leader>ja :call LanguageClient_textDocument_codeAction()<CR>
+nnoremap <silent> <leader>j* :call LanguageClient_textDocument_documentHighlight()<CR>
 nnoremap <silent> <leader>jw :call LanguageClient_workspace_symbol()<CR>
 nnoremap <silent> <leader>jc :call LanguageClient_textDocument_rename()<CR>
 nnoremap <silent> <leader>jz :call LanguageClient_contextMenu()<CR>
@@ -560,6 +564,7 @@ let g:vimtex_quickfix_method = 'pplatex'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
+
 "if exists("*ncm2#enable_for_buffer")
   "augroup my_cm_setup
     "autocmd!
