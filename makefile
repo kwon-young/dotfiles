@@ -46,6 +46,12 @@ Miniconda3-latest-Linux-x86_64.sh:
 
 .cache/Ellana: | .cache
 	stow Ellana_config
+	systemctl --user daemon-reload
+	touch $@
+
+.cache/Edwin: | .cache
+	stow Edwin_config
+	systemctl --user daemon-reload
 	touch $@
 
 .cache/latexmk: | .cache
