@@ -1,0 +1,14 @@
+[Unit]
+Description=Languagetool HTTP server
+
+[Service]
+Type=simple
+PIDFile=/run/language-tool.pid
+Restart=always
+Environment="LANGUAGETOOL_LANGUAGESERVER_OPTS=-noverify -Xms256M -Xmx256M -XX:MaxMetaspaceSize=256m -XX:+UseG1GC -XX:+UseStringDeduplication"
+ExecStart=java -cp /home/kwon-young/Downloads/LanguageTool-5.4/languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*" --languageModel /home/kwon-young/Downloads/language_model --verbose
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -QUIT $MAINPID
+
+[Install]
+WantedBy=multi-user.target
