@@ -407,7 +407,7 @@ nnoremap <F2> :call Seoul256Brighten()<CR>
 
 " Fugitive mappings {{{
 nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gc :Git commit<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gw :Gwrite<CR>
 " }}}
