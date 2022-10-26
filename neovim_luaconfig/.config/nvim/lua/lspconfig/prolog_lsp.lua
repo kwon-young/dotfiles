@@ -1,0 +1,21 @@
+local util = require 'lspconfig/util'
+
+return {
+  default_config = {
+    cmd = {"swipl",
+           "-g", "use_module(library(lsp_server)).",
+           "-g", "lsp_server:main",
+           "-t", "halt",
+           "--", "stdio"};
+    filetypes = {"prolog"};
+    root_dir = util.root_pattern("pack.pl");
+  };
+  docs = {
+     description = [[
+  https://github.com/jamesnvc/prolog_lsp
+
+  Prolog Language Server
+  ]];
+  }
+}
+-- vim:et ts=2 sw=2

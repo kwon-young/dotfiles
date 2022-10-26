@@ -1,11 +1,11 @@
---   _____                        _____  _                
---  / ____|                      |  __ \(_)               
--- | |     __ _ _ __ _ __   ___  | |  | |_  ___ _ __ ___  
--- | |    / _` | '__| '_ \ / _ \ | |  | | |/ _ \ '_ ` _ \ 
+--   _____                        _____  _
+--  / ____|                      |  __ \(_)
+-- | |     __ _ _ __ _ __   ___  | |  | |_  ___ _ __ ___
+-- | |    / _` | '__| '_ \ / _ \ | |  | | |/ _ \ '_ ` _ \
 -- | |___| (_| | |  | |_) |  __/ | |__| | |  __/ | | | | |
 --  \_____\__,_|_|  | .__/ \___| |_____/|_|\___|_| |_| |_|
---                  | |                                   
---                  |_|                                   
+--                  | |
+--                  |_|
 -- Author: Kwon-Young Choi
 -- Date: 2021-08-29
 --
@@ -192,6 +192,7 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   use 'junegunn/seoul256.vim'
+  use 'vimpostor/vim-lumen'
 
   -- interface
   use 'tpope/vim-sleuth'
@@ -246,6 +247,18 @@ end)
 vim.g.seoul256_srgb = 1
 vim.g.seoul256_background = 236
 vim.cmd('colorscheme seoul256')
+
+-- Lumen configuration
+
+vim.api.nvim_exec([[
+augroup lumen
+  autocmd!
+  au User LumenLight colorscheme seoul256-light
+  au User LumenDark colorscheme seoul256
+augroup END
+]], false)
+
+
 
 -- status line configuration with vim-flagship
 function _G.ListNumberEntry(listtype)
@@ -361,6 +374,8 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
+require 'lspconfig/util'
+
 -- Enable the following language servers
 local servers = {
   clangd = {},
@@ -392,6 +407,9 @@ local servers = {
   },
   pylsp = {},
 }
+
+require('lspconfig/prolog_lsp')
+require('lspconfig').prolog_lsp.setup{}
 
 for lsp, settings in pairs(servers) do
   settings.on_attach = on_attach

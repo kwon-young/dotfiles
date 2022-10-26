@@ -25,10 +25,9 @@ all: .cache/vim .cache/neovim .cache/miniconda .cache/konsole .cache/zsh .cache/
 	stow vim_config
 	touch $@
 
-.cache/neovim: .cache/vim .cache/miniconda | .cache
+.cache/neovim: | .cache
 	mkdir -p $(HOME)/.local/share/nvim
-	stow neovim_config
-	nvim +PlugInstall +qall > /dev/null
+	stow neovim_luaconfig
 	touch $@
 
 .INTERMEDIATE: Miniconda3-latest-Linux-x86_64.sh
