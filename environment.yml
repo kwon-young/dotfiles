@@ -1,0 +1,12 @@
+name: dev
+channels:
+  - conda-forge
+dependencies:
+  - pynvim
+  - python
+  - python-lsp-server
+  - pylsp-mypy
+  - pylsp-rope
+  - lua-language-server
+  - marksman
+  - bash-language-server
