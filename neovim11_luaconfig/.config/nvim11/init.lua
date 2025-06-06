@@ -31,7 +31,7 @@ vim.opt.backupdir:remove({'.'})
 
 local backupdir = vim.opt.backupdir:get()[1]
 if fn.empty(fn.glob(backupdir)) > 0 then
-  fn.mkdir(backupdir)
+    fn.mkdir(backupdir)
 end
 
 vim.opt.number = true
@@ -169,14 +169,14 @@ vim.api.nvim_create_autocmd({"TextYankPost"}, {
 -- ===
 
 vim.lsp.config('*', {
-  capabilities = {
-    textDocument = {
-      semanticTokens = {
-        multilineTokenSupport = true,
-      }
-    }
-  },
-  root_markers = { '.git' },
+    capabilities = {
+        textDocument = {
+            semanticTokens = {
+                multilineTokenSupport = true,
+            }
+        }
+    },
+    root_markers = { '.git' },
 })
 vim.lsp.config.luals = {
     cmd = { 'lua-language-server' },
@@ -197,30 +197,34 @@ vim.lsp.config.luals = {
     }
 }
 vim.lsp.config.clangd = {
-  cmd = { 'clangd', '--background-index' },
-  root_markers = { 'compile_commands.json', 'compile_flags.txt' },
-  filetypes = { 'c', 'cpp' },
+    cmd = { 'clangd', '--background-index' },
+    root_markers = { 'compile_commands.json', 'compile_flags.txt' },
+    filetypes = { 'c', 'cpp' },
 }
 vim.lsp.config.pylsp = {
-  cmd = { 'pylsp' },
-  root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile',
-                   'environment.yml' },
-  filetypes = { 'python' },
+    cmd = { 'pylsp' },
+    root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile',
+    'environment.yml' },
+    filetypes = { 'python' },
 }
 vim.lsp.config.prolog_ls = {
-  cmd = { '/home/kwon-young/prog/swipl-devel/install/bin/swipl', '-g', 'use_module(library(lsp_server)).', '-g', 'lsp_server:main', '-t', 'halt',
-          '--', 'stdio' },
-  root_markers = { 'pack.pl' },
-  filetypes = { 'prolog' },
+    cmd = { '/home/kwon-young/prog/swipl-devel/install/bin/swipl', '-g', 'use_module(library(lsp_server)).', '-g', 'lsp_server:main', '-t', 'halt',
+    '--', 'stdio' },
+    root_markers = { 'pack.pl' },
+    filetypes = { 'prolog' },
 }
 vim.env.DOTNET_ROOT = dev .. 'lib/dotnet'
 vim.lsp.config.marksman = {
-  cmd = { 'marksman', 'server' },
-  root_markers = { '.marksman.toml' },
-  filetypes = { 'markdown', 'markdown.mdx' },
+    cmd = { 'marksman', 'server' },
+    root_markers = { '.marksman.toml' },
+    filetypes = { 'markdown', 'markdown.mdx' },
+}
+vim.lsp.config.bashls = {
+    cmd = { 'bash-language-server', 'start' },
+    filetypes = { 'bash', 'sh' },
 }
 
-vim.lsp.enable({ 'luals', 'clangd', 'pylsp', 'prolog_ls', 'marksman' })
+vim.lsp.enable({ 'luals', 'clangd', 'pylsp', 'prolog_ls', 'marksman', 'bashls' })
 vim.diagnostic.config({ virtual_lines = true })
 
 -- LSP autocompletion
@@ -254,7 +258,7 @@ function MyTabLine()
             tabline = tabline .. '%#TabLine#'
         end
 
-	    -- set the tab page number (for mouse clicks)
+	-- set the tab page number (for mouse clicks)
         tabline = tabline .. '%' .. index .. 'T'
         -- tab number
         tabline = tabline .. ' ' .. index
@@ -291,190 +295,190 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local colors = {
-  active = {
-      bg = '#875f5f',
-      fg = '#d7d7af',
-  },
-  inactive = {
-      bg = '#d7d7af',
-      fg = '#444444',
-  },
+    active = {
+        bg = '#875f5f',
+        fg = '#d7d7af',
+    },
+    inactive = {
+        bg = '#d7d7af',
+        fg = '#444444',
+    },
 }
 
 local lualine_theme = {
-  visual = {
-    b = { fg = colors.active.fg, bg = colors.active.bg },
-    a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
-  },
-  inactive = {
-    b = { fg = colors.inactive.fg, bg = colors.inactive.bg },
-    c = { fg = colors.inactive.fg, bg = colors.inactive.bg },
-    a = { fg = colors.inactive.fg, bg = colors.inactive.bg, gui = 'bold' },
-  },
-  insert = {
-    b = { fg = colors.active.fg, bg = colors.active.bg },
-    a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
-  },
-  replace = {
-    b = { fg = colors.active.fg, bg = colors.active.bg },
-    a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
-  },
-  normal = {
-    b = { fg = colors.active.fg, bg = colors.active.bg },
-    c = { fg = colors.active.fg, bg = colors.active.bg },
-    a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
-  },
+    visual = {
+        b = { fg = colors.active.fg, bg = colors.active.bg },
+        a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
+    },
+    inactive = {
+        b = { fg = colors.inactive.fg, bg = colors.inactive.bg },
+        c = { fg = colors.inactive.fg, bg = colors.inactive.bg },
+        a = { fg = colors.inactive.fg, bg = colors.inactive.bg, gui = 'bold' },
+    },
+    insert = {
+        b = { fg = colors.active.fg, bg = colors.active.bg },
+        a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
+    },
+    replace = {
+        b = { fg = colors.active.fg, bg = colors.active.bg },
+        a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
+    },
+    normal = {
+        b = { fg = colors.active.fg, bg = colors.active.bg },
+        c = { fg = colors.active.fg, bg = colors.active.bg },
+        a = { fg = colors.active.fg, bg = colors.active.bg, gui = 'bold' },
+    },
 }
 
 -- Setup lazy.nvim
 -- ===============
 require("lazy").setup({
-  spec = {
-      -- colorscheme
-      {
-          'junegunn/seoul256.vim',
-          lazy = false, -- make sure we load this during startup if it is your main colorscheme
-          priority = 1000, -- make sure to load this before all the other start plugins
-          config = function()
-              -- load the colorscheme here
-              vim.g.seoul256_srgb = 1
-              vim.g.seoul256_background = 236
-              vim.cmd('colorscheme seoul256')
-          end,
-      },
-      -- indent
-      { 'tpope/vim-sleuth', lazy = false },
-      -- statusline
-      {
-          'nvim-lualine/lualine.nvim',
-          lazy = false,
-          opts = {
-              inactive_sections = {
-                  lualine_a = {},
-                  lualine_b = { "branch", "diff", "diagnostics" },
-                  lualine_c = { "filename" },
-                  lualine_x = { "encoding", "fileformat", "filetype" },
-                  lualine_y = { "progress" },
-                  lualine_z = { "location" }
-              },
-              sections = {
-                  lualine_a = {}
-              },
-              extensions = {'quickfix', 'fugitive'},
-              options = {
-                  theme = lualine_theme,
-                  component_separators = { left = '', right = ''},
-                  section_separators = { left = '', right = ''},
-                  path = 1,
-              },
-          }
-      },
-      -- quickfix
-      { 'blueyed/vim-qf_resize', lazy = false },
-      -- picker
-      {
-          'nvim-telescope/telescope.nvim', tag = '0.1.8',
-          dependencies = { 'nvim-lua/plenary.nvim' },
-          config = function()
-              local builtin = require('telescope.builtin')
-              vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Telescope find files' } )
-              vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Telescope live grep' } )
-              vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Telescope buffers' } )
-              vim.keymap.set('n', '<leader>jh', builtin.help_tags, { desc = 'Telescope help tags' } )
-          end,
-      },
-      {
-          'nvim-telescope/telescope-fzf-native.nvim',
-          build = 'make',
-          init = function()
-              require('telescope').load_extension('fzf')
-          end,
-      },
-      -- sudo
-      {
-          'lambdalisue/suda.vim',
-          lazy = false,
-          init = function()
-              vim.g.suda_smart_edit = 1
-          end
-      },
-      -- tables
-      { 'godlygeek/tabular', cmd = 'Tabularize' },
-      -- git
-      { 'tpope/vim-fugitive', lazy = false },
-      -- languages
-      {
-          'terrortylor/nvim-comment',
-          lazy = false,
-          config = function()
-              require('nvim_comment').setup({
-                  line_mapping = "<leader>cc",
-                  operator_mapping = "<leader>c"
-              })
-          end
-      },
-      {
-          'nvim-treesitter/nvim-treesitter',
-          branch = 'master',
-          lazy = false,
-          build = ':TSUpdate',
-          config = function()
-              require'nvim-treesitter.configs'.setup {
-                  -- highlight = {
-                  --     enable = true,
-                  --     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-                  --     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-                  --     -- Using this ;option may slow down your editor, and you may see some duplicate highlights.
-                  --     -- Instead of true it can also be a list of languages
-                  --     additional_vim_regex_highlighting = false,
-                  -- },
-                  incremental_selection = {
-                      enable = true,
-                      keymaps = {
-                          init_selection = "gnn",
-                          node_incremental = "grn",
-                          scope_incremental = "grc",
-                          node_decremental = "grm",
-                      },
-                  },
-              }
-          end,
-      },
-      { "rafamadriz/friendly-snippets" },
-      {
-          'DimitrisDimitropoulos/yasp.nvim',
-          -- lazy loading is not required, since it is handled internally
-          lazy = false,
-          opts = {
-              -- 💀 WARNING: the following must be provided by the user
-              -- the paths to the package.json files, no default given, must be provided
-              paths = {
-                  -- for friendly-snippets installed via lazy.nvim
-                  vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
-                  -- for snippets in the users config directory
-                  -- vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/path/to/package.json',
-              },
-              -- the accompanying descriptions for the paths, no default given, must be provided
-              descs = { 'F-S', 'User' },
-          },
-      },
-  },
-  -- Configure any other settings here. See the documentation for more details.
-  -- automatically check for plugin updates
-  checker = { enabled = true },
-})
+    spec = {
+        -- colorscheme
+        {
+            'junegunn/seoul256.vim',
+            lazy = false, -- make sure we load this during startup if it is your main colorscheme
+            priority = 1000, -- make sure to load this before all the other start plugins
+            config = function()
+                -- load the colorscheme here
+                vim.g.seoul256_srgb = 1
+                vim.g.seoul256_background = 236
+                vim.cmd('colorscheme seoul256')
+            end,
+        },
+        -- indent
+        { 'tpope/vim-sleuth', lazy = false },
+        -- statusline
+        {
+            'nvim-lualine/lualine.nvim',
+            lazy = false,
+            opts = {
+                inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = { "branch", "diff", "diagnostics" },
+                    lualine_c = { "filename" },
+                    lualine_x = { "encoding", "fileformat", "filetype" },
+                    lualine_y = { "progress" },
+                    lualine_z = { "location" }
+                },
+                sections = {
+                    lualine_a = {}
+                },
+                extensions = {'quickfix', 'fugitive'},
+                options = {
+                    theme = lualine_theme,
+                    component_separators = { left = '', right = ''},
+                    section_separators = { left = '', right = ''},
+                    path = 1,
+                },
+            }
+        },
+        -- quickfix
+        { 'blueyed/vim-qf_resize', lazy = false },
+        -- picker
+        {
+            'nvim-telescope/telescope.nvim', tag = '0.1.8',
+            dependencies = { 'nvim-lua/plenary.nvim' },
+            config = function()
+                local builtin = require('telescope.builtin')
+                vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Telescope find files' } )
+                vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Telescope live grep' } )
+                vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Telescope buffers' } )
+                vim.keymap.set('n', '<leader>jh', builtin.help_tags, { desc = 'Telescope help tags' } )
+            end,
+        },
+        {
+            'nvim-telescope/telescope-fzf-native.nvim',
+            build = 'make',
+            init = function()
+                require('telescope').load_extension('fzf')
+            end,
+        },
+        -- sudo
+        {
+            'lambdalisue/suda.vim',
+            lazy = false,
+            init = function()
+                vim.g.suda_smart_edit = 1
+            end
+        },
+        -- tables
+        { 'godlygeek/tabular', cmd = 'Tabularize' },
+        -- git
+        { 'tpope/vim-fugitive', lazy = false },
+        -- languages
+        {
+            'terrortylor/nvim-comment',
+            lazy = false,
+            config = function()
+                require('nvim_comment').setup({
+                    line_mapping = "<leader>cc",
+                    operator_mapping = "<leader>c"
+                })
+            end
+        },
+        {
+            'nvim-treesitter/nvim-treesitter',
+            branch = 'master',
+            lazy = false,
+            build = ':TSUpdate',
+            config = function()
+                require'nvim-treesitter.configs'.setup {
+                    -- highlight = {
+                        --     enable = true,
+                        --     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+                        --     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+                        --     -- Using this ;option may slow down your editor, and you may see some duplicate highlights.
+                        --     -- Instead of true it can also be a list of languages
+                        --     additional_vim_regex_highlighting = false,
+                        -- },
+                        incremental_selection = {
+                            enable = true,
+                            keymaps = {
+                                init_selection = "gnn",
+                                node_incremental = "grn",
+                                scope_incremental = "grc",
+                                node_decremental = "grm",
+                            },
+                        },
+                    }
+                end,
+            },
+            { "rafamadriz/friendly-snippets" },
+            {
+                'DimitrisDimitropoulos/yasp.nvim',
+                -- lazy loading is not required, since it is handled internally
+                lazy = false,
+                opts = {
+                    -- 💀 WARNING: the following must be provided by the user
+                    -- the paths to the package.json files, no default given, must be provided
+                    paths = {
+                        -- for friendly-snippets installed via lazy.nvim
+                        vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
+                        -- for snippets in the users config directory
+                        -- vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/path/to/package.json',
+                    },
+                    -- the accompanying descriptions for the paths, no default given, must be provided
+                    descs = { 'F-S', 'User' },
+                },
+            },
+        },
+        -- Configure any other settings here. See the documentation for more details.
+        -- automatically check for plugin updates
+        checker = { enabled = true },
+    })
 
--- Fugitive
-vim.keymap.set('n', '<leader>gs', ':Git<CR>')
-vim.keymap.set('n', '<leader>gc', ':Git commit<CR>')
-vim.keymap.set('n', '<leader>gd', ':Gdiff<CR>')
-vim.keymap.set('n', '<leader>gw', ':Gwrite<CR>')
+    -- Fugitive
+    vim.keymap.set('n', '<leader>gs', ':Git<CR>')
+    vim.keymap.set('n', '<leader>gc', ':Git commit<CR>')
+    vim.keymap.set('n', '<leader>gd', ':Gdiff<CR>')
+    vim.keymap.set('n', '<leader>gw', ':Gwrite<CR>')
 
-local cutecat = vim.api.nvim_create_augroup('cutecat', { clear = true })
-vim.api.nvim_create_autocmd({"VimEnter"}, {
-  callback = function()
-      vim.cmd([[highlight Visual ctermfg=NONE]])
-      print(">^.^<")
-  end,
-  group = cutecat,
-})
+    local cutecat = vim.api.nvim_create_augroup('cutecat', { clear = true })
+    vim.api.nvim_create_autocmd({"VimEnter"}, {
+        callback = function()
+            vim.cmd([[highlight Visual ctermfg=NONE]])
+            print(">^.^<")
+        end,
+        group = cutecat,
+    })
