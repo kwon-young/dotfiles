@@ -10,3 +10,9 @@ dependencies:
   - lua-language-server
   - marksman
   - bash-language-server
+  - dockerfile-language-server-nodejs
+  - jupyter
+  - google-generativeai
+  - pip
+  - pip:
+    - aider-install
