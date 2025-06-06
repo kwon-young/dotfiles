@@ -446,18 +446,18 @@ require("lazy").setup({
           -- lazy loading is not required, since it is handled internally
           lazy = false,
           opts = {
-                  -- 💀 WARNING: the following must be provided by the user
-                  -- the paths to the package.json files, no default given, must be provided
-                  paths = {
-                      -- for friendly-snippets installed via lazy.nvim
-                      vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
-                      -- for snippets in the users config directory
-                      -- vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/path/to/package.json',
-                  },
-                  -- the accompanying descriptions for the paths, no default given, must be provided
-                  descs = { 'F-S', 'User' },
+              -- 💀 WARNING: the following must be provided by the user
+              -- the paths to the package.json files, no default given, must be provided
+              paths = {
+                  -- for friendly-snippets installed via lazy.nvim
+                  vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
+                  -- for snippets in the users config directory
+                  -- vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/path/to/package.json',
               },
+              -- the accompanying descriptions for the paths, no default given, must be provided
+              descs = { 'F-S', 'User' },
           },
+      },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- automatically check for plugin updates
